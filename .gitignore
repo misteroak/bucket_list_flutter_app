@@ -31,6 +31,7 @@
 .pub/
 /build/
 *.freezed.dart
+*.g.dart
 *.config.dart
 
 # Web related
