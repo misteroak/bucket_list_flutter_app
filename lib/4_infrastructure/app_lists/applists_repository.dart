@@ -15,9 +15,9 @@ class AppListsRepository implements IAppListsRepository {
   AppListsRepository(this.sp);
 
   @override
-  AppList getList() {
+  Future<AppList> getList() {
     String res = sp.getString(listKey) ?? '';
-    return AppList.fromJson(jsonDecode(res));
+    return Future.value(AppList.fromJson(jsonDecode(res)));
   }
 
   @override

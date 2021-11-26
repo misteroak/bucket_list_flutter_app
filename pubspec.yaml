@@ -27,13 +27,16 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  bloc: ^8.0.1
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.0.0
   freezed_annotation: ^1.0.0
   get_it: ^7.2.0
   injectable: ^1.5.0
   json_annotation: ^4.3.0
+  logger: ^1.1.0
   shared_preferences: ^2.0.9
 
 dev_dependencies:
