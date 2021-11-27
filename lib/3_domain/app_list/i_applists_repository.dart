@@ -1,4 +1,4 @@
-import 'applist_entity.dart';
+import 'app_list_entity.dart';
 
 abstract class IAppListsRepository {
   Future<AppList?> getList();

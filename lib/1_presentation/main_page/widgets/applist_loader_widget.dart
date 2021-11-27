@@ -21,7 +21,8 @@ class AppListLoaderWidget extends StatelessWidget {
               state.map(
                   initial: (_) => '',
                   loadingList: (_) => 'Loading..',
-                  loadedListSuccessfully: (event) => event.appList.name,
+                  loadedListSuccessfully: (event) =>
+                      '${event.appList.name} (${event.appList.items.length})',
                   loadListFailed: (_) => 'Error loading list!'),
             );
           },
