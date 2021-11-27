@@ -1,10 +1,8 @@
 import 'dart:convert';
 
 import 'package:injectable/injectable.dart';
-import 'package:photo_app/3_domain/app_lists/applist_entity.dart';
+import 'package:photo_app/3_domain/entities.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../3_domain/app_lists/i_applists_repository.dart';
 
 const listKey = 'AppList';
 

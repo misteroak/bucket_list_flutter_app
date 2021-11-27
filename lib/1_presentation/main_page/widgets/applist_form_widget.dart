@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:photo_app/2_application/blocs/applist_form_bloc/applist_form_bloc.dart';
-import 'package:photo_app/3_domain/app_lists/applist_entity.dart';
+import 'package:photo_app/2_application/blocs.dart';
+import 'package:photo_app/3_domain/app_list/applist_entity.dart';
 
 class AppListFormWidget extends StatefulWidget {
   const AppListFormWidget({Key? key}) : super(key: key);

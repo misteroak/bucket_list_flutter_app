@@ -1,9 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-
-import '../../../3_domain/app_lists/applist_entity.dart';
-import '../../../3_domain/app_lists/i_applists_repository.dart';
+import 'package:photo_app/3_domain/entities.dart';
 
 part 'applist_watcher_bloc.freezed.dart';
 part 'applist_watcher_event.dart';
