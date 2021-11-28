@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../2_application/blocs.dart';
 import '../../injection.dart';
+import '../constants.dart';
 import 'widgets/applist_form_widget.dart';
 import 'widgets/applist_loader_widget.dart';
 
@@ -45,16 +46,26 @@ class _MainPageLayout extends StatelessWidget {
         );
       },
       child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              // Save list form
-              AppListFormWidget(),
-              Divider(color: Colors.red),
-              AppListLoaderWidget(),
-            ],
+        child: Container(
+          decoration: gradientBackground,
+          child: Padding(
+            padding: const EdgeInsets.all(30.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Save list form
+                Text(
+                  'Save List',
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                const AppListFormWidget(),
+                const Divider(color: Colors.red),
+                const AppListLoaderWidget(),
+              ],
+            ),
           ),
         ),
       ),

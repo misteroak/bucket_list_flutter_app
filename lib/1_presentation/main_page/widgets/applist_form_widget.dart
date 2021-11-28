@@ -23,7 +23,7 @@ class _AppListFormWidgetState extends State<AppListFormWidget> {
         children: [
           TextFormField(
             decoration: const InputDecoration(
-              labelText: 'List Name',
+              hintText: 'List Name',
             ),
             onChanged: (newValue) => _listName = newValue,
           ),

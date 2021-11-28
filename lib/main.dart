@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
+import '1_presentation/constants.dart';
 import '1_presentation/main_page/main_page.dart';
 import '2_application/bloc_observer/bloc_observer.dart';
 import 'injection.dart';
@@ -25,9 +26,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: appThemeLight,
       home: const MainPage(),
     );
   }
