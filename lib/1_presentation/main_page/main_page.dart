@@ -34,14 +34,16 @@ class _MainPageLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<AppListFormBloc, AppListFormState>(
-      listenWhen: (previous, current) => current.maybeMap(
-        savedSuccessfully: (_) => true,
-        orElse: () => false,
-      ),
+      listenWhen: (previous, current) {
+        if (current.saveError == null) return false;
+        return (previous.isSaving && !current.isSaving);
+      },
       listener: (context, state) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('List saved successfully!'),
+          SnackBar(
+            content: state.saveError!
+                ? const Text('List saved successfully!')
+                : const Text('Error saving list'),
           ),
         );
       },

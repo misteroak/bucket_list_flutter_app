@@ -9,10 +9,15 @@ part 'app_list_entity.g.dart';
 // @JsonSerializable(explicitToJson: true)
 class AppList with _$AppList {
   @JsonSerializable(explicitToJson: true)
-  const factory AppList(
-    String name, {
-    @Default([]) List<AppListItem> items,
+  const factory AppList({
+    required String name,
+    required List<AppListItem> items,
   }) = _AppList;
+
+  factory AppList.empty() => const AppList(
+        name: '',
+        items: [],
+      );
 
   factory AppList.fromJson(Map<String, dynamic> json) =>
       _$AppListFromJson(json);

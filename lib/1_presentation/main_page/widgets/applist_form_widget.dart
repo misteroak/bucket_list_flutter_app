@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photo_app/2_application/blocs.dart';
-import 'package:photo_app/3_domain/app_list/app_list_entity.dart';
 
 class AppListFormWidget extends StatefulWidget {
   const AppListFormWidget({Key? key}) : super(key: key);
@@ -12,10 +11,11 @@ class AppListFormWidget extends StatefulWidget {
 
 class _AppListFormWidgetState extends State<AppListFormWidget> {
   final _formKey = GlobalKey<FormState>();
-  String? _listName;
 
   @override
   Widget build(BuildContext context) {
+    final AppListFormBloc appListFormBloc = context.read<AppListFormBloc>();
+
     return Form(
       key: _formKey,
       child: Column(
@@ -25,12 +25,12 @@ class _AppListFormWidgetState extends State<AppListFormWidget> {
             decoration: const InputDecoration(
               hintText: 'List Name',
             ),
-            onChanged: (newValue) => _listName = newValue,
+            onChanged: (newValue) =>
+                appListFormBloc.add(AppListFormEvent.nameChanged(newValue)),
           ),
           TextButton(
-            onPressed: () => context
-                .read<AppListFormBloc>()
-                .add(AppListFormEvent.saveAppList(AppList(_listName ?? ''))),
+            onPressed: () =>
+                appListFormBloc.add(const AppListFormEvent.saved()),
             child: const Text('Save List'),
           ),
         ],
