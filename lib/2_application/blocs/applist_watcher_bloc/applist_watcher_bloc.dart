@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:photo_app/3_domain/entities.dart';
@@ -20,6 +21,8 @@ class AppListWatcherBloc
           emit(const AppListWatcherState.loadingList());
           // Try to get list from repository
           final appList = await appListsRepository.getList();
+          // Todo: remove me
+          await Future.delayed(const Duration(milliseconds: 250));
 
           // List load failed
           if (appList == null) {

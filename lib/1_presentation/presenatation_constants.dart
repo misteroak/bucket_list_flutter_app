@@ -9,11 +9,38 @@ ThemeData appThemeLight = ThemeData(
   textTheme: appTextTheme,
   inputDecorationTheme: inputDecorationTheme,
   hintColor: Colors.black38,
+  textButtonTheme: appTextButtonThemeData,
+  // outlinedButtonTheme: appOutlinedButtonTheme,
 );
 
 TextTheme appTextTheme = GoogleFonts.oxygenTextTheme(
-  const TextTheme(),
+  const TextTheme(
+    button: TextStyle(fontSize: 20),
+  ),
 );
+
+TextButtonThemeData appTextButtonThemeData = TextButtonThemeData(
+  style: TextButton.styleFrom(
+    primary: Colors.white,
+    backgroundColor: Colors.white10,
+    padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(6),
+    ),
+  ),
+);
+
+// OutlinedButtonThemeData appOutlinedButtonTheme = OutlinedButtonThemeData(
+//   style: TextButton.styleFrom(
+//     primary: Colors.white,
+//     backgroundColor: Colors.orange.shade700.withAlpha(0),
+//     side: BorderSide.none,
+//   ),
+// );
+
+// AppBarTheme appAppBarTheme = AppBarTheme(
+//   // titleTextStyle: Theme.of(context).textTheme.headline4,
+// );
 
 InputDecorationTheme inputDecorationTheme = InputDecorationTheme(
   fillColor: inputBackground,

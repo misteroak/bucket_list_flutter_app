@@ -15,34 +15,32 @@ class AppListFormBloc extends Bloc<AppListFormEvent, AppListFormState> {
   AppListFormBloc(this.appListsRepository) : super(AppListFormState.initial()) {
     on<AppListFormEvent>(
       (event, emit) async {
-        // await event.map(
-        //   // started
-        //   started: (_) {},
-        //   // saveAppList
-        //   saveAppList: (event) async {
-        //     emit(const AppListFormState.saving());
-        //     final res = await appListsRepository.writeList(event.appList);
-        //     emit(res
-        //         ? const AppListFormState.savedSuccessfully()
-        //         : const AppListFormState.saveFailed());
-        //   },
-        // );
-
         await event.map(
-          initialized: (_) {},
+          initialized: (e) {
+            if (e.initialList == null) return; // New list
+            emit(state.copyWith(
+                appList: e.initialList!,
+                isDirty: false)); // Edited list (from event)
+          },
           nameChanged: (e) {
-            emit(state.copyWith(appList: state.appList.copyWith(name: e.name)));
+            emit(state.copyWith(
+              appList: state.appList.copyWith(name: e.name),
+              isDirty: true,
+            ));
           },
           itemsChanged: (e) {
             emit(state.copyWith(
-                appList: state.appList.copyWith(items: e.items)));
+              appList: state.appList.copyWith(items: e.items),
+              isDirty: false,
+            ));
           },
           saved: (_) async {
             emit(state.copyWith(isSaving: true));
             final res = await appListsRepository.writeList(state.appList);
             emit(state.copyWith(
               isSaving: false,
-              saveError: res,
+              saveError: !res,
+              isDirty: !res,
             ));
           },
         );
