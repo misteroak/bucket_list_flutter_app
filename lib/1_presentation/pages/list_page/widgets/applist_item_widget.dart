@@ -3,8 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:photo_app/2_application/blocs/applist_form_bloc/applist_form_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../../../presenatation_constants.dart';
-
 class AppListItemWidget extends HookWidget {
   const AppListItemWidget({
     Key? key,
@@ -24,11 +22,8 @@ class AppListItemWidget extends HookWidget {
       child: ListTile(
         contentPadding: EdgeInsets.zero,
         title: TextFormField(
-            // initialValue: bloc.state.appList.items[index].title,
-            // initialValue: '$index',
             controller: controller,
             onChanged: (newValue) {
-              print(newValue);
               bloc.add(AppListFormEvent.itemTitleChanged(newValue, index));
             }),
         trailing: IconButton(

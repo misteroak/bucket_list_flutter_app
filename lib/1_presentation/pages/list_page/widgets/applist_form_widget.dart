@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:logger/logger.dart';
 import 'package:photo_app/1_presentation/pages/list_page/widgets/applist_item_widget.dart';
 
 import '../../../../2_application/blocs.dart';
