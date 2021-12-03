@@ -7,7 +7,6 @@ part 'app_list_entity.freezed.dart';
 part 'app_list_entity.g.dart';
 
 @freezed
-// @JsonSerializable(explicitToJson: true)
 class AppList with _$AppList {
   const AppList._(); // Added constructor
 
