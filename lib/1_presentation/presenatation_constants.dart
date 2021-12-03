@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-const colorPrimaryAccent = Colors.pink;
-const inputBackground = Colors.white24;
+class AppColors {
+  static final inputBackground = Colors.white24;
+}
 
 ThemeData appThemeLight = ThemeData(
   brightness: Brightness.light,
@@ -10,7 +11,6 @@ ThemeData appThemeLight = ThemeData(
   inputDecorationTheme: inputDecorationTheme,
   hintColor: Colors.black38,
   textButtonTheme: appTextButtonThemeData,
-  // outlinedButtonTheme: appOutlinedButtonTheme,
 );
 
 TextTheme appTextTheme = GoogleFonts.oxygenTextTheme(
@@ -43,7 +43,7 @@ TextButtonThemeData appTextButtonThemeData = TextButtonThemeData(
 // );
 
 InputDecorationTheme inputDecorationTheme = InputDecorationTheme(
-  fillColor: inputBackground,
+  fillColor: AppColors.inputBackground,
   filled: true,
   contentPadding: const EdgeInsets.all(10),
   enabledBorder: OutlineInputBorder(

@@ -5,7 +5,7 @@ import '../../../2_application/blocs.dart';
 import '../../../3_domain/entities.dart';
 import '../../../injection.dart';
 import '../../presenatation_constants.dart';
-import '../main_page/widgets/applist_form_widget.dart';
+import 'widgets/applist_form_widget.dart';
 
 class ListPage extends StatelessWidget {
   const ListPage({Key? key, this.list}) : super(key: key);
@@ -44,7 +44,7 @@ class _ListPageScaffold extends StatelessWidget {
         listener: (context, state) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: state.saveError!
+              content: !state.saveError!
                   ? const Text('List saved successfully!')
                   : const Text('Error saving list'),
             ),
@@ -53,17 +53,9 @@ class _ListPageScaffold extends StatelessWidget {
         child: Center(
           child: Container(
             decoration: gradientBackground,
-            child: Padding(
-              padding: const EdgeInsets.all(30.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
-                  SizedBox(
-                    height: 10,
-                  ),
-                  AppListFormWidget(),
-                ],
-              ),
+            child: const Padding(
+              padding: EdgeInsets.all(20.0),
+              child: AppListFormWidget(),
             ),
           ),
         ),

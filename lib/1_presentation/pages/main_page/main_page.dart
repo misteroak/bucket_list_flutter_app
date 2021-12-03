@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:photo_app/1_presentation/routes/router.dart';
 
 import '../../../2_application/blocs.dart';
 import '../../../injection.dart';
 import '../../presenatation_constants.dart';
+import '../../routes/router.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -36,10 +36,11 @@ class _MainPageLayout extends StatelessWidget {
         ),
         listener: (context, state) {
           state.maybeMap(
-              loadedListSuccessfully: (e) {
-                context.router.push(ListPageRoute(list: e.appList));
-              },
-              orElse: () {});
+            loadedListSuccessfully: (e) {
+              context.router.push(ListPageRoute(list: e.appList));
+            },
+            orElse: () {},
+          );
         },
         child: Container(
           decoration: gradientBackground,
@@ -58,10 +59,8 @@ class _MainPageLayout extends StatelessWidget {
                   child: BlocBuilder<AppListWatcherBloc, AppListWatcherState>(
                     builder: (context, state) {
                       return state.maybeMap(
-                        // initial: (_) => Text("Load the list"),
                         loadingList: (_) => const CircularProgressIndicator(),
-                        // loadingList: (_) => const CircularProgressIndicator(),
-                        orElse: () => const Text('Load the list'),
+                        orElse: () => Container(),
                       );
                     },
                   ),

@@ -23,25 +23,55 @@ class AppListFormBloc extends Bloc<AppListFormEvent, AppListFormState> {
                 isDirty: false)); // Edited list (from event)
           },
           nameChanged: (e) {
-            emit(state.copyWith(
-              appList: state.appList.copyWith(name: e.name),
-              isDirty: true,
-            ));
+            emit(
+              state.copyWith(
+                appList: state.appList.copyWith(name: e.name),
+                isDirty: true,
+              ),
+            );
           },
-          itemsChanged: (e) {
-            emit(state.copyWith(
-              appList: state.appList.copyWith(items: e.items),
-              isDirty: false,
-            ));
+          itemAdded: (_) {
+            emit(
+              state.copyWith(
+                appList: state.appList.copyAndAddEmptyItem(),
+                isDirty: true,
+              ),
+            );
           },
+          itemDeleted: (e) {
+            emit(
+              state.copyWith(
+                  appList: state.appList.copyAndRemoveItemAtIndex(e.index),
+                  isDirty: false),
+            );
+          },
+          itemTitleChanged: (e) {
+            emit(
+              state.copyWith(
+                appList:
+                    state.appList.copyWithUpdatedItemtitle(e.newTitle, e.index),
+                isDirty: false,
+              ),
+            );
+          },
+          // itemsChanged: (e) {
+          //   emit(
+          //     state.copyWith(
+          //       appList: state.appList.copyWith(items: e.items),
+          //       isDirty: false,
+          //     ),
+          //   );
+          // },
           saved: (_) async {
             emit(state.copyWith(isSaving: true));
             final res = await appListsRepository.writeList(state.appList);
-            emit(state.copyWith(
-              isSaving: false,
-              saveError: !res,
-              isDirty: !res,
-            ));
+            emit(
+              state.copyWith(
+                isSaving: false,
+                saveError: !res,
+                isDirty: !res,
+              ),
+            );
           },
         );
       },
