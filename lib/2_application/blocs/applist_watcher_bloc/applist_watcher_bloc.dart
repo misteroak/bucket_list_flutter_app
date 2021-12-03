@@ -21,9 +21,6 @@ class AppListWatcherBloc
           emit(const AppListWatcherState.loadingList());
           // Try to get list from repository
           final appList = await appListsRepository.getList();
-          // Todo: remove me
-          await Future.delayed(const Duration(milliseconds: 250));
-
           // List load failed
           if (appList == null) {
             emit(const AppListWatcherState.loadListFailed());
