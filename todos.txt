@@ -1,4 +1,0 @@
-1) Make looger real singleton?
-1) Repository should thorw exception if can't read
-1) Firebase
-1) Make global material cuppertino
