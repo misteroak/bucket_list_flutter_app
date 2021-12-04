@@ -1,14 +1,13 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:photo_app/3_domain/app_list_item/app_list_item_entity.dart';
 import 'package:photo_app/3_domain/core/unique_id.dart';
-
-import '../entities.dart';
 
 part 'app_list_entity.freezed.dart';
 part 'app_list_entity.g.dart';
 
 @freezed
 class AppList with _$AppList {
-  const AppList._(); // Added constructor
+  const AppList._();
 
   @JsonSerializable(explicitToJson: true)
   const factory AppList({
@@ -17,9 +16,9 @@ class AppList with _$AppList {
     required List<AppListItem> items,
   }) = _AppList;
 
-  factory AppList.empty() => AppList(
+  factory AppList.empty({String? name}) => AppList(
         id: UniqueId(),
-        name: '',
+        name: name ?? '',
         items: [],
       );
 

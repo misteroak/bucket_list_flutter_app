@@ -5,7 +5,7 @@ import '../../../2_application/blocs.dart';
 import '../../../3_domain/entities.dart';
 import '../../../injection.dart';
 import '../../presenatation_constants.dart';
-import 'widgets/applist_form_widget.dart';
+import 'widget_applist_form.dart';
 
 class ListPage extends StatelessWidget {
   const ListPage({Key? key, this.list}) : super(key: key);
@@ -17,8 +17,15 @@ class ListPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AppListFormBloc>(
-            create: (_) => getIt<AppListFormBloc>()
-              ..add(AppListFormEvent.initialized(list))),
+          // create: (_) => getIt<AppListFormBloc>()
+          //   ..add(
+          create: (_) => AppListFormBloc(
+            getIt<IAppListsRepository>(),
+            context.read<AppListWatcherBloc>(),
+          )..add(
+              AppListFormEvent.initialized(list),
+            ),
+        ),
       ],
       child: const _ListPageScaffold(),
     );

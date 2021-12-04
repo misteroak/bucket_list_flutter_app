@@ -24,11 +24,11 @@ class AppListItemWidget extends HookWidget {
         title: TextFormField(
             controller: controller,
             onChanged: (newValue) {
-              bloc.add(AppListFormEvent.itemTitleChanged(newValue, index));
+              bloc.add(AppListFormEvent.listItemTitleChanged(newValue, index));
             }),
         trailing: IconButton(
           icon: const Icon(Icons.delete),
-          onPressed: () => bloc.add(AppListFormEvent.itemDeleted(index)),
+          onPressed: () => bloc.add(AppListFormEvent.listItemDeleted(index)),
           color: Colors.red,
         ),
       ),

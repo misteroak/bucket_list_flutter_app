@@ -1,6 +1,15 @@
-import 'app_list_entity.dart';
+import '../entities.dart';
 
 abstract class IAppListsRepository {
-  Future<AppList?> getList();
-  Future<bool> writeList(AppList list);
+  Future<List<AppList>?> loadLists();
+
+  Future<bool> create(AppList appList);
+  Future<bool> update(AppList appList);
+  Future<bool> delete(AppList appList);
+
+  // Stream<Either<NoteFailure, KtList<Note>>> watchAll();
+  // Stream<Either<NoteFailure, KtList<Note>>> watchUncompleted();
+  // Future<Either<NoteFailure, Unit>> create(Note note);
+  // Future<Either<NoteFailure, Unit>> update(Note note);
+  // Future<Either<NoteFailure, Unit>> delete(Note note);
 }

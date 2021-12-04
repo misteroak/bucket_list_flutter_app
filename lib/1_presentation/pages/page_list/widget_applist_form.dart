@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:photo_app/1_presentation/pages/list_page/widgets/applist_item_widget.dart';
 
-import '../../../../2_application/blocs.dart';
+import '../../../2_application/blocs.dart';
+import 'widget_applist_item.dart';
 
 class AppListFormWidget extends StatelessWidget {
   const AppListFormWidget({Key? key}) : super(key: key);
@@ -24,7 +24,7 @@ class AppListFormWidget extends StatelessWidget {
           ),
           TextButton(
             onPressed: () =>
-                appListFormBloc.add(const AppListFormEvent.saved()),
+                appListFormBloc.add(const AppListFormEvent.listSaved()),
             child: const Text('Save List'),
           ),
           Expanded(
@@ -45,7 +45,7 @@ class AppListFormWidget extends StatelessWidget {
           ),
           TextButton(
             onPressed: () =>
-                appListFormBloc.add(const AppListFormEvent.itemAdded()),
+                appListFormBloc.add(const AppListFormEvent.listItemAdded()),
             child: const Text('Add Item'),
           ),
         ],

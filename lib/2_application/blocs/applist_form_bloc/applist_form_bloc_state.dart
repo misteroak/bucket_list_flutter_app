@@ -4,6 +4,7 @@ part of 'applist_form_bloc.dart';
 class AppListFormState with _$AppListFormState {
   const factory AppListFormState({
     required AppList appList,
+    required bool isEditig,
     required bool isSaving,
     required bool isDirty,
     bool? saveError,
@@ -11,6 +12,7 @@ class AppListFormState with _$AppListFormState {
 
   factory AppListFormState.initial() => AppListFormState(
         appList: AppList.empty(),
+        isEditig: false,
         isSaving: false,
         isDirty: false,
       );

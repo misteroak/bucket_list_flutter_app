@@ -7,9 +7,9 @@ import '../pages.dart';
 part 'router.gr.dart';
 
 @MaterialAutoRouter(
-  replaceInRouteName: 'Route',
+  // replaceInRouteName: 'Route',
   routes: <AutoRoute>[
-    AutoRoute(page: MainPage, initial: true),
+    AutoRoute(page: ListsOverviewPage, initial: true),
     AutoRoute(page: ListPage),
   ],
 )
