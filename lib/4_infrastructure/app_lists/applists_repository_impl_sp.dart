@@ -38,8 +38,7 @@ class AppListsRepository implements IAppListsRepository {
 
   @override
   Future<bool> delete(AppList appList) {
-    // TODO: implement delete
-    throw UnimplementedError();
+    return sp.remove(appList.id.toString());
   }
 
   /// Throws [Exception] if list not found

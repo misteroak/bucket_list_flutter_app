@@ -40,6 +40,17 @@ class AppListWatcherBloc
               add(const AppListWatcherEvent.loadLists());
             }
           },
+          // Delete List
+          deleteList: (e) async {
+            emit(const AppListWatcherState.deletingList());
+            final res = await appListsRepository.delete(e.appList);
+            if (!res) {
+              // TODO - listen to this state when creating a new list
+              emit(const AppListWatcherState.deleteListError());
+            } else {
+              add(const AppListWatcherEvent.loadLists());
+            }
+          },
         );
       },
     );
