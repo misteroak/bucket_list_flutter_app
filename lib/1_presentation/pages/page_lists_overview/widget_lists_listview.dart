@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:photo_app/1_presentation/routes/router.dart';
 import 'package:photo_app/2_application/blocs/applist_watcher_bloc/applist_watcher_bloc.dart';
 import 'package:photo_app/3_domain/app_list/app_list_entity.dart';
-import 'package:provider/src/provider.dart';
+import 'package:provider/provider.dart';
 
 class AppListsListView extends StatelessWidget {
   const AppListsListView({
