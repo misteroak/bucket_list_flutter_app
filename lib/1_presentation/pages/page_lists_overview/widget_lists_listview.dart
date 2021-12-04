@@ -30,7 +30,7 @@ class AppListsListView extends StatelessWidget {
         child: Container(
           color: Colors.white54,
           child: ListTile(
-            key: ValueKey(appListsList[index].id),
+            key: ValueKey(appListsList[index].createdTimestamp),
             title: Text(appListsList[index].name),
             onTap: () => context.router.push(
               ListPageRoute(list: appListsList[index]),

@@ -13,7 +13,8 @@ class AppListsRepository implements IAppListsRepository {
 
   @override
   Future<List<AppList>?> loadLists() {
-    final ids = sp.getKeys();
+    final ids = sp.getKeys().toList();
+    ids.sort();
     try {
       return Future.value(ids.map((id) => _getList(id)).toList());
     } catch (e) {
@@ -24,7 +25,10 @@ class AppListsRepository implements IAppListsRepository {
 
   @override
   Future<bool> create(AppList appList) {
-    if (sp.containsKey(appList.id.toString())) {
+    // We're using the list's creation date as the unique key. It
+    // makes easier to sort later in the UI. Once we use a real db
+    // we'll use the unique id and sort by date when we pull the data.
+    if (sp.containsKey(appList.createdTimestamp.toString())) {
       throw AssertionError('List with given id already exists');
     }
 

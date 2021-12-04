@@ -12,12 +12,14 @@ class AppList with _$AppList {
   @JsonSerializable(explicitToJson: true)
   const factory AppList({
     required UniqueId id,
+    required DateTime createdTimestamp,
     required String name,
     required List<AppListItem> items,
   }) = _AppList;
 
   factory AppList.empty({String? name}) => AppList(
         id: UniqueId(),
+        createdTimestamp: DateTime.now(),
         name: name ?? '',
         items: [],
       );
