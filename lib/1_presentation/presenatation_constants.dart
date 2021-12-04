@@ -13,7 +13,7 @@ ThemeData appThemeLight = ThemeData(
   textButtonTheme: appTextButtonThemeData,
 );
 
-TextTheme appTextTheme = GoogleFonts.oxygenTextTheme(
+TextTheme appTextTheme = GoogleFonts.sourceSansProTextTheme(
   const TextTheme(
     button: TextStyle(fontSize: 20),
   ),

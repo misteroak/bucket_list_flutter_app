@@ -8,5 +8,5 @@ Todo:
   ☐ Figure out low performance of list page
 
 Step 3: Multiple lists - release changes:
-  ☐ Updated repository
-  ☐ Note: Ugly depepdncey of AppListFormBloc on AppList Watcher bloc to update after save. This will be fixed once we moved bloc to streams.
+  ☐ Switch repository to stream
+  ☐ For that used the streaming_s_p from pubdev

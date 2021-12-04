@@ -71,7 +71,7 @@ class AppListFormBloc extends Bloc<AppListFormEvent, AppListFormState> {
 
             // Notify the watcher bloc it should re-read from storage. This is ugly and
             //  will be fixed once we move the blocs to streams
-            appListWatcherBloc.add(const AppListWatcherEvent.loadLists());
+            // appListWatcherBloc.add(const AppListWatcherEvent.loadLists());
 
             emit(
               state.copyWith(

@@ -1,7 +1,8 @@
 import '../entities.dart';
 
 abstract class IAppListsRepository {
-  Future<List<AppList>?> loadLists();
+  // Future<List<AppList>?> loadLists();
+  Stream<List<AppList>> watchLists();
 
   Future<bool> create(AppList appList);
   Future<bool> update(AppList appList);

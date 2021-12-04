@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<AppListWatcherBloc>(
           create: (_) => getIt<AppListWatcherBloc>()
-            ..add(const AppListWatcherEvent.loadLists()),
+            ..add(const AppListWatcherEvent.watchLists()),
         ),
       ],
       child: MaterialApp.router(
