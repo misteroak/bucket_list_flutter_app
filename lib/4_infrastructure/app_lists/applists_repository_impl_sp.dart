@@ -16,16 +16,12 @@ class AppListsRepository implements IAppListsRepository {
   @override
   Stream<List<AppList>> watchLists() async* {
     yield* sp.getKeys().map(
-          (Set<String> keys) => keys.map((key) => _getList(key)).toList(),
-        );
-
-    // ids.sort();
-    // try {
-    //   return Future.value(ids.map((id) => _getList(id)).toList());
-    // } catch (e) {
-    //   AppLogger.logger.e(e);
-    //   return Future.value(null);
-    // }
+      (Set<String> keys) {
+        final keysList = keys.toList();
+        keysList.sort();
+        return keysList.map((key) => _getList(key)).toList();
+      },
+    );
   }
 
   @override
@@ -33,7 +29,6 @@ class AppListsRepository implements IAppListsRepository {
     // We're using the list's creation date as the unique key. It
     // makes easier to sort later in the UI. Once we use a real db
     // we'll use the unique id and sort by date when we pull the data.
-
     if (sp.getKeys().getValue().contains(appList.createdTimestamp.toString())) {
       throw AssertionError('List with given id already exists');
     }

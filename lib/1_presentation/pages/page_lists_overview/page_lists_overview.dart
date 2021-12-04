@@ -52,24 +52,31 @@ class _ListsOverviewPageScaffold extends StatelessWidget {
             child: Column(
               children: [
                 BlocBuilder<AppListWatcherBloc, AppListWatcherState>(
+                  buildWhen: (p, c) => c.maybeWhen(
+                    loadingLists: () => true,
+                    loadedSuccessfully: (_) => true,
+                    loadFailed: () => true,
+                    orElse: () => false,
+                  ),
                   builder: (context, state) {
                     return Expanded(
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: state.maybeMap(
                           initial: (_) => const Center(
-                              child: SizedBox(
-                            height: 200,
-                            width: 200,
-                            child: CircularProgressIndicator(
-                              color: Colors.yellow,
+                            child: SizedBox(
+                              height: 200,
+                              width: 200,
+                              child: CircularProgressIndicator(
+                                color: Colors.yellow,
+                              ),
                             ),
-                          )),
+                          ),
                           loadingLists: (_) => const Text('Loading lists...'),
                           loadedSuccessfully: (e) =>
                               AppListsListView(appListsList: e.appLists),
                           loadFailed: (_) => const Text('Failed loading lists'),
-                          orElse: () => Container(),
+                          orElse: () => Container(color: Colors.red),
                         ),
                       ),
                     );
