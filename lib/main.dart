@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '1_presentation/presenatation_constants.dart';
 import '1_presentation/routes/router.dart';
 import '2_application/bloc_observer/bloc_observer.dart';
-import '2_application/blocs.dart';
 import 'injection.dart';
 
 void main() async {
