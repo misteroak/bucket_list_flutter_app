@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../2_application/blocs.dart';
 import '../../../3_domain/entities.dart';
 import '../../../injection.dart';
-import '../../presenatation_constants.dart';
+import '../../theme/custom_theme.dart';
 import 'widget_applist_form.dart';
 
 class ListPage extends StatelessWidget {
@@ -53,13 +53,10 @@ class _ListPageScaffold extends StatelessWidget {
             ),
           );
         },
-        child: Center(
-          child: Container(
-            decoration: gradientBackground,
-            child: const Padding(
-              padding: EdgeInsets.all(20.0),
-              child: AppListFormWidget(),
-            ),
+        child: const Center(
+          child: Padding(
+            padding: EdgeInsets.all(20.0),
+            child: AppListFormWidget(),
           ),
         ),
       ),

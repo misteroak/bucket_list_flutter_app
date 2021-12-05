@@ -15,7 +15,7 @@ class AppListFormWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          TextFormField(
+          TextField(
             decoration: const InputDecoration(
               hintText: 'List Name',
             ),

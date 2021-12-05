@@ -11,16 +11,19 @@ class CreateNewListWidget extends HookWidget {
     final formHook = useTextEditingController();
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Expanded(
-          flex: 3,
-          child: TextFormField(
+          flex: 6,
+          child: TextField(
             controller: formHook,
           ),
         ),
-        Expanded(
+        const Spacer(
           flex: 1,
+        ),
+        Expanded(
+          flex: 3,
           child: TextButton(
             onPressed: () => onClick(formHook.value.text),
             child: const Text('Add'),

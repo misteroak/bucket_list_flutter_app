@@ -2,8 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '1_presentation/presenatation_constants.dart';
 import '1_presentation/routes/router.dart';
+import '1_presentation/theme/custom_theme.dart';
 import '2_application/bloc_observer/bloc_observer.dart';
 import 'injection.dart';
 
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Flutter Demo',
-      theme: appThemeLight,
+      theme: CustomTheme.lightTheme,
       routerDelegate: _appRouter.delegate(),
       routeInformationParser: _appRouter.defaultRouteParser(),
     );

@@ -19,35 +19,21 @@ class AppListsListView extends StatelessWidget {
         itemCount: appListsList.length,
         separatorBuilder: (_, __) => const SizedBox(height: 1),
         itemBuilder: (context, index) {
-          return ClipRRect(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(index == 0 ? 10 : 0),
-              topRight: Radius.circular(index == 0 ? 10 : 0),
-              bottomLeft:
-                  Radius.circular(index == appListsList.length - 1 ? 10 : 0),
-              bottomRight:
-                  Radius.circular(index == appListsList.length - 1 ? 10 : 0),
-            ),
-            child: Container(
-              color: Colors.white54,
-              child: ListTile(
-                title: Text(appListsList[index].name),
-                onTap: () => context.router.push(
-                  ListPageRoute(list: appListsList[index]),
-                ),
-                trailing: IconButton(
-                  icon: const Icon(
-                    Icons.delete,
-                    color: Colors.black26,
-                  ),
-                  onPressed: () => {
-                    context.read<AppListWatcherBloc>().add(
-                          AppListWatcherEvent.deleteList(
-                            appListsList[index],
-                          ),
-                        )
-                  },
-                ),
+          return Card(
+            child: ListTile(
+              title: Text(appListsList[index].name),
+              onTap: () => context.router.push(
+                ListPageRoute(list: appListsList[index]),
+              ),
+              trailing: IconButton(
+                icon: const Icon(Icons.delete),
+                onPressed: () => {
+                  context.read<AppListWatcherBloc>().add(
+                        AppListWatcherEvent.deleteList(
+                          appListsList[index],
+                        ),
+                      )
+                },
               ),
             ),
           );

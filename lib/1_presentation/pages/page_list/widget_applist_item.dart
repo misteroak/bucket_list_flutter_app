@@ -17,19 +17,24 @@ class AppListItemWidget extends HookWidget {
     final controller =
         useTextEditingController(text: bloc.state.appList.items[index].title);
 
-    return Padding(
-      padding: const EdgeInsets.all(0.0),
-      child: ListTile(
-        contentPadding: EdgeInsets.zero,
-        title: TextFormField(
-            controller: controller,
-            onChanged: (newValue) {
-              bloc.add(AppListFormEvent.listItemTitleChanged(newValue, index));
-            }),
-        trailing: IconButton(
-          icon: const Icon(Icons.delete),
-          onPressed: () => bloc.add(AppListFormEvent.listItemDeleted(index)),
-          color: Colors.red,
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(0.0),
+        child: ListTile(
+          contentPadding: EdgeInsets.zero,
+          title: TextField(
+              controller: controller,
+              onChanged: (newValue) {
+                bloc.add(
+                  AppListFormEvent.listItemTitleChanged(newValue, index),
+                );
+              }),
+          trailing: IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () => bloc.add(
+              AppListFormEvent.listItemDeleted(index),
+            ),
+          ),
         ),
       ),
     );
