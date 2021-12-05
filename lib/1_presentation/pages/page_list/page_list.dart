@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../2_application/blocs.dart';
 import '../../../3_domain/entities.dart';
 import '../../../injection.dart';
-import '../../theme/custom_theme.dart';
 import 'widget_applist_form.dart';
 
 class ListPage extends StatelessWidget {
