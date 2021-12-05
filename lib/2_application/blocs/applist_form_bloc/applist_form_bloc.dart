@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:photo_app/2_application/blocs/applist_watcher_bloc/applist_watcher_bloc.dart';
 
 import '../../../3_domain/entities.dart';
 
@@ -11,14 +10,10 @@ part 'applist_form_bloc_state.dart';
 
 @injectable
 class AppListFormBloc extends Bloc<AppListFormEvent, AppListFormState> {
-  // This is ugly. It will be fixed in a later stage once we make our bloc use streams
-  final AppListWatcherBloc appListWatcherBloc;
-
   final IAppListsRepository appListsRepository;
 
   AppListFormBloc(
     this.appListsRepository,
-    this.appListWatcherBloc,
   ) : super(AppListFormState.initial()) {
     on<AppListFormEvent>(
       (event, emit) async {
@@ -68,10 +63,6 @@ class AppListFormBloc extends Bloc<AppListFormEvent, AppListFormState> {
             final res = state.isEditig
                 ? await appListsRepository.update(state.appList)
                 : await appListsRepository.create(state.appList);
-
-            // Notify the watcher bloc it should re-read from storage. This is ugly and
-            //  will be fixed once we move the blocs to streams
-            // appListWatcherBloc.add(const AppListWatcherEvent.loadLists());
 
             emit(
               state.copyWith(

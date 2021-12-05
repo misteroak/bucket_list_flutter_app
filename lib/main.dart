@@ -27,19 +27,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<AppListWatcherBloc>(
-          create: (_) => getIt<AppListWatcherBloc>()
-            ..add(const AppListWatcherEvent.watchLists()),
-        ),
-      ],
-      child: MaterialApp.router(
-        title: 'Flutter Demo',
-        theme: appThemeLight,
-        routerDelegate: _appRouter.delegate(),
-        routeInformationParser: _appRouter.defaultRouteParser(),
-      ),
+    return MaterialApp.router(
+      title: 'Flutter Demo',
+      theme: appThemeLight,
+      routerDelegate: _appRouter.delegate(),
+      routeInformationParser: _appRouter.defaultRouteParser(),
     );
   }
 }

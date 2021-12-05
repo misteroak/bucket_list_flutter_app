@@ -17,12 +17,8 @@ class ListPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AppListFormBloc>(
-          // create: (_) => getIt<AppListFormBloc>()
-          //   ..add(
-          create: (_) => AppListFormBloc(
-            getIt<IAppListsRepository>(),
-            context.read<AppListWatcherBloc>(),
-          )..add(
+          create: (_) => getIt<AppListFormBloc>()
+            ..add(
               AppListFormEvent.initialized(list),
             ),
         ),

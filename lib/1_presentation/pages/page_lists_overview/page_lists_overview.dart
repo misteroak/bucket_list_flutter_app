@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:photo_app/3_domain/entities.dart';
+import '../../../3_domain/entities.dart';
 
 import '../../../2_application/blocs/applist_watcher_bloc/applist_watcher_bloc.dart';
+import '../../../injection.dart';
 import '../../presenatation_constants.dart';
 import 'widget_create_new_list.dart';
 import 'widget_lists_listview.dart';
@@ -15,7 +16,9 @@ class ListsOverviewPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AppListWatcherBloc>(
-            create: (_) => context.read<AppListWatcherBloc>()),
+          create: (_) => getIt<AppListWatcherBloc>()
+            ..add(const AppListWatcherEvent.watchLists()),
+        )
       ],
       child: const _ListsOverviewPageScaffold(),
     );
