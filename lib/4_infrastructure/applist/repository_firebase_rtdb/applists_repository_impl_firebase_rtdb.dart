@@ -73,7 +73,7 @@ class AppListsFirebaseRepository implements IAppListsRepository {
     try {
       // Check if list already exists. This is just for extra safety, probably not really needed
       final appListValue = (await database
-              .child(DatabasePaths.listsIndexRoot + id.toString())
+              .child(DatabasePaths.listsIndexRoot + appList.id.toString())
               .once())
           .value;
       if (null != appListValue) {

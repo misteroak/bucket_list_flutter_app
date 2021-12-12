@@ -10,7 +10,6 @@ class AppListActorState with _$AppListActorState {
   const factory AppListActorState.getListError() = _$getListError;
 
   // Create
-  const factory AppListActorState.creatingNewList() = _$creatingNewList;
   const factory AppListActorState.newListCreatedError() = _$newListCreatedError;
 
   // Deleting

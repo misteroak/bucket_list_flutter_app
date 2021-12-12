@@ -30,8 +30,6 @@ class AppListActorBloc extends Bloc<AppListActorEvent, AppListActorState> {
 
         // Create New List
         createNewList: (e) async {
-          // TODO: Listen to this state
-          emit(const AppListActorState.creatingNewList());
           final newList = AppList.empty().copyWith(name: e.listName);
           final res = await _appListsRepository.create(newList);
 
