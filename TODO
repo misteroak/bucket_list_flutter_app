@@ -1,12 +1,14 @@
 
 Todo:
-  ☐ Repository should technically return failures, not exceptions
-  ☐ Repository should not access domain directly, but rather a data store object
-  ☐ Make AppListItems a domain model
-  ☐ Firebase
+  ☐ Cleanups
+  ☐ Implement delete
+  ☐ Fix UI so that things are saved automatically
   ☐ Make global material cuppertino
   ☐ Figure out low performance of list page
 
-Step 3: Multiple lists - release changes:
-  ☐ Switch repository to stream
-  ☐ For that used the streaming_s_p from pubdev
+Step 5: Multiple lists - release changes:
+  ☐ Switched to Firebase RTDB
+  ☐ Updated repository a bit but did not re-implmented the streaming SP
+  ☐ Split to a new bloc - actor who's responsible for read, write and delete  
+  - changed unique id to ulid to have it lexi ordered
+  
