@@ -20,43 +20,34 @@ class AppListActorBloc extends Bloc<AppListActorEvent, AppListActorState> {
       await event.map(
         // Get List
         getList: (e) async {
-          print('blox is getting list id ${e.appListId}');
           final listOrFailure = await _appListsRepository.getList(e.appListId);
 
           listOrFailure.fold(
-            (f) => emit(const AppListActorState.getListError()),
-            (r) {
-              print('bloc got $r');
-              emit(AppListActorState.getListSuccess(r));
-            },
-          );
+              // TODO: Listen to this state
+              (f) => emit(const AppListActorState.getListError()),
+              (r) => emit(AppListActorState.getListSuccess(r)));
         },
 
         // Create New List
         createNewList: (e) async {
+          // TODO: Listen to this state
           emit(const AppListActorState.creatingNewList());
           final newList = AppList.empty().copyWith(name: e.listName);
           final res = await _appListsRepository.create(newList);
 
           res.fold(
-            // TODO - listen to this state when creating a new list
-            (_) => emit(const AppListActorState.newListCreatedError()),
-            (r) => emit(AppListActorState.newListCreatedSuccessfully(newList)),
+            // TODO - listen to this state
+            (failure) => emit(const AppListActorState.newListCreatedError()),
+            (r) {},
           );
         },
         // Delete List
         deleteList: (e) async {
-          emit(const AppListActorState.deletingList());
-
-          //TODO: !! Implement me
-
-          // final res = await _appListsRepository.delete(e.appList);
-          // if (!res) {
-          //   emit(const AppListWatcherState.deleteListError());
-          // }
-          // else {
-          //   add(const AppListWatcherEvent.loadLists());
-          // }
+          final res = await _appListsRepository.delete(e.appList.id);
+          res.fold(
+            (failure) => emit(const AppListActorState.deleteListError()),
+            (_) {},
+          );
         },
       );
     });

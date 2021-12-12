@@ -10,5 +10,5 @@ abstract class IAppListsRepository {
   Future<Either<AppListFailure, AppList>> getList(UniqueId id);
   Future<Either<AppListFailure, Unit>> create(AppList appList);
   Future<Either<AppListFailure, Unit>> update(AppList appList);
-  Future<Either<AppListFailure, Unit>> delete(AppList appList);
+  Future<Either<AppListFailure, Unit>> delete(UniqueId id);
 }

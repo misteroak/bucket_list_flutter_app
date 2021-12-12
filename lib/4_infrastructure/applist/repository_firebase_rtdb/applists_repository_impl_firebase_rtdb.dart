@@ -69,31 +69,32 @@ class AppListsFirebaseRepository implements IAppListsRepository {
   }
 
   @override
-  Future<Either<AppListFailure, Unit>> create(AppList appList) {
+  Future<Either<AppListFailure, Unit>> create(AppList appList) async {
     try {
-      // TODO: check if list already exists?
+      // Check if list already exists. This is just for extra safety, probably not really needed
+      final appListValue = (await database
+              .child(DatabasePaths.listsIndexRoot + id.toString())
+              .once())
+          .value;
+      if (null != appListValue) {
+        return Future.value(
+            left<AppListFailure, Unit>(const AppListFailure.unexpected()));
+      }
 
-      final Map<String, dynamic> updates = {};
-
-      updates[DatabasePaths.listsIndexRoot + appList.id.toString()] =
-          AppListMetadataDto.fromDomain(appList).toJson();
-
-      updates[DatabasePaths.listsRoot + appList.id.toString()] =
-          AppListDto.fromDomain(appList).toJson();
-
-      database.update(updates);
-
-      return Future.value(right<AppListFailure, Unit>(unit));
+      return _update(appList);
     } catch (e) {
-      // TODO: Log error
+      // TODO: Log error - list id already exists
       return Future.value(
           left<AppListFailure, Unit>(const AppListFailure.unexpected()));
     }
   }
 
   @override
-  // TODO: This differs from create only by set vs update. Need to refactor.
   Future<Either<AppListFailure, Unit>> update(AppList appList) {
+    return _update(appList);
+  }
+
+  Future<Either<AppListFailure, Unit>> _update(AppList appList) async {
     try {
       final Map<String, dynamic> updates = {};
 
@@ -103,7 +104,7 @@ class AppListsFirebaseRepository implements IAppListsRepository {
       updates[DatabasePaths.listsRoot + appList.id.toString()] =
           AppListDto.fromDomain(appList).toJson();
 
-      database.update(updates);
+      await database.update(updates);
 
       return Future.value(right<AppListFailure, Unit>(unit));
     } catch (e) {
@@ -114,16 +115,14 @@ class AppListsFirebaseRepository implements IAppListsRepository {
   }
 
   @override
-  // TODO: This is very similar to create and update. Consider refactor.
-  Future<Either<AppListFailure, Unit>> delete(AppList appList) {
+  Future<Either<AppListFailure, Unit>> delete(UniqueId id) async {
     try {
       final Map<String, dynamic> updates = {};
 
-      updates[DatabasePaths.listsIndexRoot + appList.id.toString()] = null;
+      updates[DatabasePaths.listsIndexRoot + id.toString()] = null;
+      updates[DatabasePaths.listsRoot + id.toString()] = null;
 
-      updates[DatabasePaths.listsRoot + appList.id.toString()] = null;
-
-      database.update(updates);
+      await database.update(updates);
 
       return Future.value(right<AppListFailure, Unit>(unit));
     } catch (e) {

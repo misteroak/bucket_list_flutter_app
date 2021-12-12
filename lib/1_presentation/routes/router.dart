@@ -13,5 +13,4 @@ part 'router.gr.dart';
     AutoRoute(page: ListPage),
   ],
 )
-// extend the generated private router
 class AppRouter extends _$AppRouter {}

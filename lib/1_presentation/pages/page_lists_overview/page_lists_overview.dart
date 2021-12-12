@@ -33,7 +33,6 @@ class ListsOverviewPage extends StatelessWidget implements AutoRouteWrapper {
       listener: (context, state) {
         state.maybeMap(
           getListSuccess: (e) {
-            print('pushin with list ${e.appList}');
             context.router.push(ListPageRoute(list: e.appList));
           },
           orElse: () {},

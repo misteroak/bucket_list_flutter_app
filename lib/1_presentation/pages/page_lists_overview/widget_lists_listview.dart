@@ -25,8 +25,6 @@ class AppListsListView extends StatelessWidget {
             child: ListTile(
               title: Text(appListsList[index].name),
               onTap: () {
-                print(index);
-                print('asking bloc to get ${appListsList[index].id}');
                 bloc.add(AppListActorEvent.getList(appListsList[index].id));
               },
               trailing: IconButton(
