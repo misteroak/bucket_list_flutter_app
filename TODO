@@ -1,7 +1,7 @@
 
 Todo:
-  ☐ Update repostiry to stream based!
   ☐ Repository should technically return failures, not exceptions
+  ☐ Repository should not access domain directly, but rather a data store object
   ☐ Make AppListItems a domain model
   ☐ Firebase
   ☐ Make global material cuppertino

@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,7 +10,9 @@ import 'injection.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // TODO: Should we keep the awaits here? If so, should have the splash screen in the meantime?
   await configureDependencies();
+  await Firebase.initializeApp();
 
   BlocOverrides.runZoned(
     () {

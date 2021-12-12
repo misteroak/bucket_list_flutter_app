@@ -5,6 +5,15 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Test - Setup RTDB",
+            "type": "dart",
+            "program": "test/db_setup_firebase_rtdb.dart",
+            "args": ["test"]
+        },
+    
+        
+        
+        {
             "name": "Debug photo_app",
             "request": "launch",
             "type": "dart"

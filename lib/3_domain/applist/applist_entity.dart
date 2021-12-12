@@ -1,14 +1,18 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:photo_app/3_domain/app_list_item/app_list_item_entity.dart';
+import 'package:photo_app/3_domain/applist/applist_failure.dart';
+import 'package:photo_app/3_domain/core/i_entity.dart';
 import 'package:photo_app/3_domain/core/unique_id.dart';
 
-part 'app_list_entity.freezed.dart';
-part 'app_list_entity.g.dart';
+import '../entities.dart';
+
+part 'applist_entity.freezed.dart';
+part 'applist_entity.g.dart';
 
 @freezed
-class AppList with _$AppList {
+class AppList with _$AppList implements IEntity {
   const AppList._();
 
+  // ignore: invalid_annotation_target
   @JsonSerializable(explicitToJson: true)
   const factory AppList({
     required UniqueId id,
@@ -17,17 +21,17 @@ class AppList with _$AppList {
     required List<AppListItem> items,
   }) = _AppList;
 
-  factory AppList.empty({String? name}) => AppList(
+  factory AppList.empty() => AppList(
         id: UniqueId(),
+        name: '',
         createdTimestamp: DateTime.now(),
-        name: name ?? '',
         items: [],
       );
 
   factory AppList.fromJson(Map<String, dynamic> json) =>
       _$AppListFromJson(json);
 
-  AppList copyAndAddEmptyItem() => copyWith(
+  AppList copyAndAddNewItem() => copyWith(
         items: [...items, AppListItem.empty()],
       );
 
@@ -42,4 +46,7 @@ class AppList with _$AppList {
       items: newList,
     );
   }
+
+  @override
+  AppListFailure? get errorMessage => throw UnimplementedError();
 }

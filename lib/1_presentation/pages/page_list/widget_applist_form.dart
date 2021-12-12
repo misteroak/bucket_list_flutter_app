@@ -35,7 +35,6 @@ class AppListFormWidget extends StatelessWidget {
                   itemBuilder: (context, i) {
                     return AppListItemWidget(
                       key: ValueKey(state.appList.items[i].id),
-                      // key: ValueKey,
                       index: i,
                     );
                   },

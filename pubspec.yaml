@@ -30,6 +30,9 @@ dependencies:
   auto_route: ^3.1.3
   bloc: ^8.0.1
   cupertino_icons: ^1.0.2
+  dartz: ^0.10.1
+  firebase_core: ^1.10.2
+  firebase_database: ^8.2.0
   flex_color_scheme: ^4.1.1
   flutter:
     sdk: flutter
@@ -41,8 +44,9 @@ dependencies:
   injectable: ^1.5.0
   json_annotation: ^4.3.0
   logger: ^1.1.0
+  rxdart: ^0.27.3
   streaming_shared_preferences: ^2.0.0
-  uuid: ^3.0.5
+  ulid: ^2.0.0
 
 dev_dependencies:
   auto_route_generator: ^3.1.0

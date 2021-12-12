@@ -1,9 +1,9 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:photo_app/1_presentation/routes/router.dart';
-import 'package:photo_app/2_application/blocs/applist_watcher_bloc/applist_watcher_bloc.dart';
-import 'package:photo_app/3_domain/app_list/app_list_entity.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+
+import '../../../2_application/blocs.dart';
+import '../../../3_domain/entities.dart';
 
 class AppListsListView extends StatelessWidget {
   const AppListsListView({
@@ -15,6 +15,8 @@ class AppListsListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = context.read<AppListActorBloc>();
+
     return ListView.separated(
         itemCount: appListsList.length,
         separatorBuilder: (_, __) => const SizedBox(height: 1),
@@ -22,18 +24,16 @@ class AppListsListView extends StatelessWidget {
           return Card(
             child: ListTile(
               title: Text(appListsList[index].name),
-              onTap: () => context.router.push(
-                ListPageRoute(list: appListsList[index]),
-              ),
+              onTap: () {
+                print(index);
+                print('asking bloc to get ${appListsList[index].id}');
+                bloc.add(AppListActorEvent.getList(appListsList[index].id));
+              },
               trailing: IconButton(
                 icon: const Icon(Icons.delete),
-                onPressed: () => {
-                  context.read<AppListWatcherBloc>().add(
-                        AppListWatcherEvent.deleteList(
-                          appListsList[index],
-                        ),
-                      )
-                },
+                onPressed: () => bloc.add(
+                  AppListActorEvent.deleteList(appListsList[index]),
+                ),
               ),
             ),
           );

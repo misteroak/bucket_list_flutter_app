@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -6,13 +7,13 @@ import '../../../3_domain/entities.dart';
 import '../../../injection.dart';
 import 'widget_applist_form.dart';
 
-class ListPage extends StatelessWidget {
-  const ListPage({Key? key, this.list}) : super(key: key);
+class ListPage extends StatelessWidget implements AutoRouteWrapper {
+  const ListPage({Key? key, required this.list}) : super(key: key);
 
-  final AppList? list;
+  final AppList list;
 
   @override
-  Widget build(BuildContext context) {
+  Widget wrappedRoute(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AppListFormBloc>(
@@ -22,13 +23,9 @@ class ListPage extends StatelessWidget {
             ),
         ),
       ],
-      child: const _ListPageScaffold(),
+      child: this,
     );
   }
-}
-
-class _ListPageScaffold extends StatelessWidget {
-  const _ListPageScaffold({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

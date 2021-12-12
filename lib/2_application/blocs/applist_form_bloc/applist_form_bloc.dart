@@ -19,12 +19,13 @@ class AppListFormBloc extends Bloc<AppListFormEvent, AppListFormState> {
       (event, emit) async {
         await event.map(
           initialized: (e) {
-            if (e.initialList == null) return; // New list
-            emit(state.copyWith(
-              appList: e.initialList!,
-              isEditig: true,
-              isDirty: false,
-            )); // Edited list (from event)
+            emit(
+              state.copyWith(
+                appList: e.initialList,
+                isEditig: true,
+                isDirty: false,
+              ),
+            ); // Edited list (from event)
           },
           nameChanged: (e) {
             emit(
@@ -37,7 +38,7 @@ class AppListFormBloc extends Bloc<AppListFormEvent, AppListFormState> {
           listItemAdded: (_) {
             emit(
               state.copyWith(
-                appList: state.appList.copyAndAddEmptyItem(),
+                appList: state.appList.copyAndAddNewItem(),
                 isDirty: true,
               ),
             );
@@ -46,7 +47,7 @@ class AppListFormBloc extends Bloc<AppListFormEvent, AppListFormState> {
             emit(
               state.copyWith(
                   appList: state.appList.copyAndRemoveItemAtIndex(e.index),
-                  isDirty: false),
+                  isDirty: true),
             );
           },
           listItemTitleChanged: (e) {
@@ -67,8 +68,8 @@ class AppListFormBloc extends Bloc<AppListFormEvent, AppListFormState> {
             emit(
               state.copyWith(
                 isSaving: false,
-                saveError: !res,
-                isDirty: !res,
+                saveError: res.isLeft(),
+                isDirty: res.isLeft(),
               ),
             );
           },

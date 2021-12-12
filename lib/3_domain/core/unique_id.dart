@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:uuid/uuid.dart';
+import 'package:ulid/ulid.dart';
 
 part 'unique_id.g.dart';
 
@@ -10,7 +10,7 @@ class UniqueId {
   final String value;
 
   factory UniqueId() {
-    return UniqueId._(const Uuid().v1());
+    return UniqueId._(Ulid().toString());
   }
 
   factory UniqueId.fromUniqueString(String uniqueString) {
