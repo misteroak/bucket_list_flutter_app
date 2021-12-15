@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../2_application/blocs.dart';
 import '../../../injection.dart';
 import '../../routes/router.dart';
-import 'widget_lists_listview.dart';
+import 'widget_applists_listview.dart';
 
 class ListsOverviewPage extends StatelessWidget implements AutoRouteWrapper {
   const ListsOverviewPage({Key? key}) : super(key: key);
