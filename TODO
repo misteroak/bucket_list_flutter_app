@@ -1,14 +1,13 @@
 
 Todo:
-  ☐ Cleanups
-  ☐ Implement delete
-  ☐ Fix UI so that things are saved automatically
+  ☐ Upgrade flutter!!
+  
   ☐ Make global material cuppertino
   ☐ Figure out low performance of list page
+  - Authentication
 
-Step 5: Multiple lists - release changes:
-  ☐ Switched to Firebase RTDB
-  ☐ Updated repository a bit but did not re-implmented the streaming SP
-  ☐ Split to a new bloc - actor who's responsible for read, write and delete  
-  - changed unique id to ulid to have it lexi ordered
+Next step: Save things automatically:
+  ☐ UI cleanups
+  ☐ Fix UI so that things are saved automatically
+  ☐ 
   

@@ -6,9 +6,12 @@ class AppListFormEvent with _$AppListFormEvent {
       _Initialized;
   const factory AppListFormEvent.nameChanged(String name) = _NameChanged;
 
-  const factory AppListFormEvent.listItemTitleChanged(
-      String newTitle, int index) = _ItemTitleChanged;
+  const factory AppListFormEvent.finishedEditingItem(
+      int index, String newTitle) = _FinishedEditingItem;
+
+  // const factory AppListFormEvent.listItemTitleChanged(
+  //     String newTitle, int index) = _ItemTitleChanged;
   const factory AppListFormEvent.listItemAdded() = _ItemAdded;
   const factory AppListFormEvent.listItemDeleted(int index) = _ItemDeleted;
-  const factory AppListFormEvent.listSaved() = _Saved;
+  // const factory AppListFormEvent.listSaved() = _Saved;
 }

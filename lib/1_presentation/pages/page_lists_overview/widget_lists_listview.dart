@@ -18,23 +18,25 @@ class AppListsListView extends StatelessWidget {
     final bloc = context.read<AppListActorBloc>();
 
     return ListView.separated(
-        itemCount: appListsList.length,
-        separatorBuilder: (_, __) => const SizedBox(height: 1),
-        itemBuilder: (context, index) {
-          return Card(
-            child: ListTile(
-              title: Text(appListsList[index].name),
-              onTap: () {
-                bloc.add(AppListActorEvent.getList(appListsList[index].id));
-              },
-              trailing: IconButton(
-                icon: const Icon(Icons.delete),
-                onPressed: () => bloc.add(
-                  AppListActorEvent.deleteList(appListsList[index]),
-                ),
-              ),
+      itemCount: appListsList.length,
+      separatorBuilder: (_, __) => const Divider(
+        height: 1,
+        thickness: 1,
+      ),
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: Text(appListsList[index].name),
+          onTap: () {
+            bloc.add(AppListActorEvent.getList(appListsList[index].id));
+          },
+          trailing: IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () => bloc.add(
+              AppListActorEvent.deleteList(appListsList[index]),
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 }

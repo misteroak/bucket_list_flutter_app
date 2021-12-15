@@ -5,8 +5,8 @@ import 'package:injectable/injectable.dart';
 import '../../../3_domain/entities.dart';
 
 part 'applist_form_bloc.freezed.dart';
-part 'applist_form_bloc_event.dart';
-part 'applist_form_bloc_state.dart';
+part 'applist_form_event.dart';
+part 'applist_form_state.dart';
 
 @injectable
 class AppListFormBloc extends Bloc<AppListFormEvent, AppListFormState> {
@@ -22,15 +22,14 @@ class AppListFormBloc extends Bloc<AppListFormEvent, AppListFormState> {
             emit(
               state.copyWith(
                 appList: e.initialList,
-                isEditig: true,
-                isDirty: false,
               ),
-            ); // Edited list (from event)
+            );
           },
           nameChanged: (e) {
             emit(
               state.copyWith(
                 appList: state.appList.copyWith(name: e.name),
+                isNewItemAdded: false,
                 isDirty: true,
               ),
             );
@@ -39,39 +38,34 @@ class AppListFormBloc extends Bloc<AppListFormEvent, AppListFormState> {
             emit(
               state.copyWith(
                 appList: state.appList.copyAndAddNewItem(),
+                isNewItemAdded: true,
                 isDirty: true,
               ),
             );
           },
-          listItemDeleted: (e) {
-            emit(
-              state.copyWith(
-                  appList: state.appList.copyAndRemoveItemAtIndex(e.index),
-                  isDirty: true),
-            );
-          },
-          listItemTitleChanged: (e) {
-            emit(
-              state.copyWith(
-                appList:
-                    state.appList.copyWithUpdatedItemtitle(e.newTitle, e.index),
-                isDirty: false,
-              ),
-            );
-          },
-          listSaved: (_) async {
-            emit(state.copyWith(isSaving: true));
-            final res = state.isEditig
-                ? await appListsRepository.update(state.appList)
-                : await appListsRepository.create(state.appList);
+          finishedEditingItem: (e) async {
+            final AppList updatedList =
+                state.appList.copyWithUpdatedItemtitle(e.newTitle, e.index);
 
-            emit(
-              state.copyWith(
-                isSaving: false,
-                saveError: res.isLeft(),
-                isDirty: res.isLeft(),
-              ),
-            );
+            // TODO handle error
+            final res = await appListsRepository.update(updatedList);
+
+            emit(state.copyWith(
+              appList: updatedList,
+              isNewItemAdded: false,
+            ));
+          },
+          listItemDeleted: (e) async {
+            final updatedList = state.appList.copyAndRemoveItemAtIndex(e.index);
+
+            // TODO handle error
+            final res = await appListsRepository.update(updatedList);
+
+            emit(state.copyWith(
+              appList: updatedList,
+              isNewItemAdded: false,
+              isDirty: true,
+            ));
           },
         );
       },

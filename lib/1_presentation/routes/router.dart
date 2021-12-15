@@ -10,7 +10,7 @@ part 'router.gr.dart';
   // replaceInRouteName: 'Route',
   routes: <AutoRoute>[
     AutoRoute(page: ListsOverviewPage, initial: true),
-    AutoRoute(page: ListPage),
+    AutoRoute(page: AppListFormPage),
   ],
 )
 class AppRouter extends _$AppRouter {}

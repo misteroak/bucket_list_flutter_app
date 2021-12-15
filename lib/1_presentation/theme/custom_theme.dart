@@ -16,17 +16,16 @@ class CustomTheme {
 
     // Overrides
     return theme.copyWith(
+      // Text Theme
       textTheme: theme.textTheme.copyWith(
         subtitle1: theme.textTheme.subtitle1!.copyWith(
           fontSize: 20,
-          textBaseline: TextBaseline.ideographic,
         ),
       ),
-      // Card
-      cardTheme: theme.cardTheme.copyWith(
-        color: theme.primaryColorLight,
-        elevation: 5,
-      ),
+      // Floating Action Button Theme
+      floatingActionButtonTheme: theme.floatingActionButtonTheme.copyWith(
+          // backgroundColor:
+          ),
       // Input Decoration
       inputDecorationTheme: theme.inputDecorationTheme.copyWith(
         fillColor: theme.primaryColorLight,
