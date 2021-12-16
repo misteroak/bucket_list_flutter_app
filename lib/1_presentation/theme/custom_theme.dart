@@ -1,4 +1,5 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -16,22 +17,25 @@ class CustomTheme {
 
     // Overrides
     return theme.copyWith(
-      // Text Theme
       textTheme: theme.textTheme.copyWith(
         subtitle1: theme.textTheme.subtitle1!.copyWith(
           fontSize: 20,
         ),
       ),
-      // Floating Action Button Theme
-      floatingActionButtonTheme: theme.floatingActionButtonTheme.copyWith(
-          // backgroundColor:
-          ),
-      // Input Decoration
+      cupertinoOverrideTheme: const NoDefaultCupertinoThemeData(
+        primaryColor: Colors.white60,
+      ),
+      textSelectionTheme: theme.textSelectionTheme.copyWith(
+        cursorColor: Colors.white60,
+        selectionColor: Colors.white60,
+      ),
+      appBarTheme: theme.appBarTheme.copyWith(
+        titleTextStyle: const TextStyle(fontSize: 30),
+      ),
       inputDecorationTheme: theme.inputDecorationTheme.copyWith(
-        fillColor: theme.primaryColorLight,
         contentPadding: const EdgeInsets.symmetric(
           vertical: 0,
-          horizontal: 10,
+          horizontal: 0,
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius),

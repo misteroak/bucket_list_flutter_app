@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../2_application/blocs.dart';
 import '../../../3_domain/entities.dart';
 import '../../../injection.dart';
+import 'widget_appbar_text_field.dart';
 import 'widget_applist_form.dart';
 
 class AppListFormPage extends StatelessWidget implements AutoRouteWrapper {
@@ -17,8 +18,7 @@ class AppListFormPage extends StatelessWidget implements AutoRouteWrapper {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AppListFormBloc>(create: (_) {
-          return getIt<AppListFormBloc>()
-            ..add(AppListFormEvent.initialized(list));
+          return getIt<AppListFormBloc>()..add(AppListFormEvent.initialized(list));
         }),
       ],
       child: this,
@@ -27,15 +27,33 @@ class AppListFormPage extends StatelessWidget implements AutoRouteWrapper {
 
   @override
   Widget build(BuildContext context) {
+    final AppListFormBloc _bloc = context.read<AppListFormBloc>();
+
     return GestureDetector(
       onTap: () {
+        // Add this to enable unfocus text boxes when clicking outside
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
         appBar: AppBar(
           title: BlocBuilder<AppListFormBloc, AppListFormState>(
-              buildWhen: (p, c) => !c.isDirty,
-              builder: (context, state) => Text(state.appList.name)),
+            builder: (context, state) {
+              return AppBarTextInput(
+                initialValue: state.appList.name,
+                onUnfocus: (newValue) => _bloc.add(AppListFormEvent.nameChanged(newValue)),
+              );
+            },
+          ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.ac_unit_rounded),
+              onPressed: () {},
+              color: Colors.transparent,
+              enableFeedback: false,
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+            )
+          ],
         ),
         body: BlocListener<AppListFormBloc, AppListFormState>(
           listenWhen: (previous, current) {
@@ -45,9 +63,7 @@ class AppListFormPage extends StatelessWidget implements AutoRouteWrapper {
           listener: (context, state) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: !state.saveError!
-                    ? const Text('List saved successfully!')
-                    : const Text('Error saving list'),
+                content: !state.saveError! ? const Text('List saved successfully!') : const Text('Error saving list'),
               ),
             );
           },

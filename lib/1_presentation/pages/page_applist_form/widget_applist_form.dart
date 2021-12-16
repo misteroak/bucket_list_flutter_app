@@ -12,17 +12,6 @@ class AppListFormWidget extends HookWidget {
   Widget build(BuildContext context) {
     final AppListFormBloc _bloc = context.read<AppListFormBloc>();
 
-    final _controller =
-        useTextEditingController(text: _bloc.state.appList.name);
-
-    final _focusNode = useFocusNode();
-
-    _focusNode.addListener(() {
-      if (!_focusNode.hasFocus) {
-        _bloc.add(AppListFormEvent.nameChanged(_controller.text));
-      }
-    });
-
     return Form(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -37,12 +26,9 @@ class AppListFormWidget extends HookWidget {
                       key: ValueKey(state.appList.items[i].id),
                       index: i,
                       initialTitle: state.appList.items[i].title,
-                      onUpdate: (newValue) => _bloc.add(
-                          AppListFormEvent.finishedEditingItem(i, newValue)),
-                      onDelete: (index) =>
-                          _bloc.add(AppListFormEvent.listItemDeleted(index)),
-                      autoFocus: _bloc.state.isNewItemAdded &&
-                          i == state.appList.items.length - 1,
+                      onUpdate: (newValue) => _bloc.add(AppListFormEvent.finishedEditingItem(i, newValue)),
+                      onDelete: (index) => _bloc.add(AppListFormEvent.listItemDeleted(index)),
+                      autoFocus: _bloc.state.isNewItemAdded && i == state.appList.items.length - 1,
                     );
                   },
                 );

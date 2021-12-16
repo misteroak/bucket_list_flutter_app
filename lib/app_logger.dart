@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:logger/logger.dart';
 
 final PrettyPrinter _logPrettyPrinter = PrettyPrinter(
@@ -12,6 +10,6 @@ class AppLogger {
 
   static Logger get logger => _logger;
 
-  static const JsonEncoder _encoder = JsonEncoder.withIndent('  ');
-  static JsonEncoder get jsonEncoder => _encoder;
+  // static const JsonEncoder _encoder = JsonEncoder.withIndent('  ');
+  // static JsonEncoder get jsonEncoder => _encoder;
 }

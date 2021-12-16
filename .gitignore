@@ -36,6 +36,8 @@
 *.gr.dart
 firebase.json
 database.rules.json
+.firebaserc
+package-lock.json
 
 
 # Web related

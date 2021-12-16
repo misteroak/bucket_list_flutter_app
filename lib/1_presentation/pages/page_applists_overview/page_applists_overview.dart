@@ -15,8 +15,7 @@ class ListsOverviewPage extends StatelessWidget implements AutoRouteWrapper {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AppListWatcherBloc>(
-          create: (_) => getIt<AppListWatcherBloc>()
-            ..add(const AppListWatcherEvent.watchLists()),
+          create: (_) => getIt<AppListWatcherBloc>()..add(const AppListWatcherEvent.watchLists()),
         ),
         BlocProvider<AppListActorBloc>(
           create: (_) => getIt<AppListActorBloc>(),
@@ -53,7 +52,7 @@ class _ListOvewScaffold extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         title: Text(
-          'Bucket Lists',
+          'Buckets List',
           style: Theme.of(context).textTheme.headline4!.copyWith(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
@@ -69,10 +68,8 @@ class _ListOvewScaffold extends StatelessWidget {
                 return Expanded(
                   child: state.maybeMap(
                     orElse: () => const _LoadingIndicator(),
-                    loadedSuccessfully: (e) =>
-                        AppListsListView(appListsList: e.appLists),
-                    loadFailed: (_) => const Text(
-                        'Unexpected error loading lists, please contact support'),
+                    loadedSuccessfully: (e) => AppListsListView(appListsList: e.appLists),
+                    loadFailed: (_) => const Text('Unexpected error loading lists'),
                   ),
                 );
               },
@@ -80,13 +77,12 @@ class _ListOvewScaffold extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButtonLocation:
-          FloatingActionButtonLocation.miniCenterDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add_rounded),
-        onPressed: () => context
-            .read<AppListActorBloc>()
-            .add(const AppListActorEvent.createNewList('')),
+        onPressed: () => context.read<AppListActorBloc>().add(
+              const AppListActorEvent.createNewList(),
+            ),
       ),
     );
   }
@@ -100,8 +96,7 @@ class _LoadingIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child:
-          SizedBox(height: 50, width: 50, child: CircularProgressIndicator()),
+      child: SizedBox(height: 50, width: 50, child: CircularProgressIndicator()),
     );
   }
 }

@@ -1,10 +1,10 @@
 
 Todo:
   ☐ Upgrade flutter!!
-  
+  ☐ Add animations: page transitions, list scrolls
   ☐ Make global material cuppertino
   ☐ Figure out low performance of list page
-  - Authentication
+  ☐ Authentication
 
 Next step: Save things automatically:
   ☐ UI cleanups

@@ -6,7 +6,7 @@ class AppListFormState with _$AppListFormState {
     required AppList appList,
     required bool isNewItemAdded,
     required bool isSaving,
-    required bool isDirty,
+    // required bool isDirty,
     bool? saveError,
   }) = _AppListFormState;
 
@@ -14,6 +14,6 @@ class AppListFormState with _$AppListFormState {
         appList: AppList.empty(),
         isNewItemAdded: false,
         isSaving: false,
-        isDirty: false,
+        // isDirty: false,
       );
 }

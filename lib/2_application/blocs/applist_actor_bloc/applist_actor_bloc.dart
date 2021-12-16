@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:photo_app/1_presentation/constants.dart' as constants;
 import 'package:photo_app/3_domain/core/unique_id.dart';
 
 import '../../../3_domain/applist/applist_entity.dart';
@@ -14,8 +15,7 @@ part 'applist_actor_state.dart';
 class AppListActorBloc extends Bloc<AppListActorEvent, AppListActorState> {
   final IAppListsRepository _appListsRepository;
 
-  AppListActorBloc(this._appListsRepository)
-      : super(const AppListActorState.initial()) {
+  AppListActorBloc(this._appListsRepository) : super(const AppListActorState.initial()) {
     on<AppListActorEvent>((event, emit) async {
       await event.map(
         // Get List
@@ -30,7 +30,7 @@ class AppListActorBloc extends Bloc<AppListActorEvent, AppListActorState> {
 
         // Create New List
         createNewList: (e) async {
-          final newList = AppList.empty().copyWith(name: e.listName);
+          final newList = AppList.empty().copyWith(name: e.listName ?? constants.defaultNewListName);
           final res = await _appListsRepository.create(newList);
 
           res.fold(

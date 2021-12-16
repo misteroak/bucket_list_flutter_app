@@ -28,8 +28,7 @@ class AppList with _$AppList implements IEntity {
         items: [],
       );
 
-  factory AppList.fromJson(Map<String, dynamic> json) =>
-      _$AppListFromJson(json);
+  factory AppList.fromJson(Map<String, dynamic> json) => _$AppListFromJson(json);
 
   AppList copyAndAddNewItem() => copyWith(
         items: [...items, AppListItem.empty()],

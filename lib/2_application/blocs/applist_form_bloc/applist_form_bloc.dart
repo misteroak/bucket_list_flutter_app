@@ -25,12 +25,17 @@ class AppListFormBloc extends Bloc<AppListFormEvent, AppListFormState> {
               ),
             );
           },
-          nameChanged: (e) {
+          nameChanged: (e) async {
+            final AppList updatedList = state.appList.copyWith(name: e.newName);
+
+            // TODO handle error
+            final res = await appListsRepository.update(updatedList);
+
             emit(
               state.copyWith(
-                appList: state.appList.copyWith(name: e.name),
+                appList: updatedList,
                 isNewItemAdded: false,
-                isDirty: true,
+                // isDirty: true,
               ),
             );
           },
@@ -39,13 +44,12 @@ class AppListFormBloc extends Bloc<AppListFormEvent, AppListFormState> {
               state.copyWith(
                 appList: state.appList.copyAndAddNewItem(),
                 isNewItemAdded: true,
-                isDirty: true,
+                // isDirty: true,
               ),
             );
           },
           finishedEditingItem: (e) async {
-            final AppList updatedList =
-                state.appList.copyWithUpdatedItemtitle(e.newTitle, e.index);
+            final AppList updatedList = state.appList.copyWithUpdatedItemtitle(e.newTitle, e.index);
 
             // TODO handle error
             final res = await appListsRepository.update(updatedList);
@@ -53,6 +57,7 @@ class AppListFormBloc extends Bloc<AppListFormEvent, AppListFormState> {
             emit(state.copyWith(
               appList: updatedList,
               isNewItemAdded: false,
+              // isDirty: true,
             ));
           },
           listItemDeleted: (e) async {
@@ -64,7 +69,7 @@ class AppListFormBloc extends Bloc<AppListFormEvent, AppListFormState> {
             emit(state.copyWith(
               appList: updatedList,
               isNewItemAdded: false,
-              isDirty: true,
+              // isDirty: true,
             ));
           },
         );
