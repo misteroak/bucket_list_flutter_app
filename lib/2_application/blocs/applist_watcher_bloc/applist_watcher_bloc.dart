@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
-import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
@@ -14,12 +13,10 @@ part 'applist_watcher_event.dart';
 part 'applist_watcher_state.dart';
 
 @injectable
-class AppListWatcherBloc
-    extends Bloc<AppListWatcherEvent, AppListWatcherState> {
+class AppListWatcherBloc extends Bloc<AppListWatcherEvent, AppListWatcherState> {
   final IAppListsRepository _appListsRepository;
 
-  AppListWatcherBloc(this._appListsRepository)
-      : super(const AppListWatcherState.initial()) {
+  AppListWatcherBloc(this._appListsRepository) : super(const AppListWatcherState.initial()) {
     on<AppListWatcherEvent>((event, emit) async {
       await event.map(
         // Load Lists
