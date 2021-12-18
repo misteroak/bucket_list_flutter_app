@@ -4,7 +4,6 @@ import 'package:injectable/injectable.dart';
 import 'package:photo_app/1_presentation/constants.dart' as constants;
 import 'package:photo_app/3_domain/core/unique_id.dart';
 
-import '../../../3_domain/applist/applist_entity.dart';
 import '../../../3_domain/entities.dart';
 
 part 'applist_actor_bloc.freezed.dart';
