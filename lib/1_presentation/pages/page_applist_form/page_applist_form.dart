@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:photo_app/1_presentation/common_widgets/widget_padding_button.dart';
 
 import '../../../2_application/blocs.dart';
 import '../../../3_domain/entities.dart';
@@ -44,15 +45,8 @@ class AppListFormPage extends StatelessWidget implements AutoRouteWrapper {
               );
             },
           ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.ac_unit_rounded),
-              onPressed: () {},
-              color: Colors.transparent,
-              enableFeedback: false,
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-            )
+          actions: const [
+            PaddingButton(),
           ],
         ),
         body: BlocListener<AppListFormBloc, AppListFormState>(
@@ -69,7 +63,7 @@ class AppListFormPage extends StatelessWidget implements AutoRouteWrapper {
           },
           child: const Center(
             child: Padding(
-              padding: EdgeInsets.all(20.0),
+              padding: EdgeInsets.symmetric(vertical: 8),
               child: AppListFormWidget(),
             ),
           ),

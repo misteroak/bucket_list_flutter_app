@@ -1,13 +1,12 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ThemeConsts {}
+class ThemeConsts {
+  static const double borderRadius = 8;
+}
 
 class CustomTheme {
-  static const double borderRadius = 10;
-
   static ThemeData get lightTheme {
     // Main Theme
     final ThemeData theme = FlexThemeData.light(
@@ -22,27 +21,21 @@ class CustomTheme {
           fontSize: 20,
         ),
       ),
-      cupertinoOverrideTheme: const NoDefaultCupertinoThemeData(
-        primaryColor: Colors.white60,
-      ),
-      textSelectionTheme: theme.textSelectionTheme.copyWith(
-        cursorColor: Colors.white60,
-        selectionColor: Colors.white60,
-      ),
       appBarTheme: theme.appBarTheme.copyWith(
         titleTextStyle: const TextStyle(fontSize: 30),
       ),
       inputDecorationTheme: theme.inputDecorationTheme.copyWith(
         contentPadding: const EdgeInsets.symmetric(
-          vertical: 0,
-          horizontal: 0,
+          // vertical: 0,
+          horizontal: 8,
         ),
+        fillColor: Colors.black12,
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
+          borderRadius: BorderRadius.circular(ThemeConsts.borderRadius),
           borderSide: const BorderSide(width: 0, color: Colors.transparent),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
+          borderRadius: BorderRadius.circular(ThemeConsts.borderRadius),
           borderSide: const BorderSide(width: 0, color: Colors.transparent),
         ),
       ),
