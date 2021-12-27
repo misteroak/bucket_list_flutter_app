@@ -60,7 +60,10 @@ class AppListFormPage extends StatelessWidget implements AutoRouteWrapper {
                 PaddingButton(),
               ],
             ),
-            body: AppListFormWidget(state.appList),
+            body: Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+              child: AppListFormWidget(state.appList),
+            ),
             floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
             floatingActionButton: FloatingActionButton(
               child: const Icon(Icons.add_task_outlined),

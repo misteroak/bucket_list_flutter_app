@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ThemeConsts {
-  static const double borderRadius = 8;
+  static const double borderRadius = 0;
 }
 
 class CustomTheme {
@@ -29,7 +29,7 @@ class CustomTheme {
           // vertical: 0,
           horizontal: 8,
         ),
-        fillColor: Colors.black12,
+        fillColor: theme.inputDecorationTheme.fillColor?.withAlpha(30),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(ThemeConsts.borderRadius),
           borderSide: const BorderSide(width: 0, color: Colors.transparent),

@@ -3,6 +3,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../../common.dart';
 
+// TODO: Use hooks
 class AppListItemWidget extends StatefulWidget {
   const AppListItemWidget({
     required Key key,
@@ -55,6 +56,7 @@ class _AppListItemWidgetState extends State<AppListItemWidget> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      contentPadding: EdgeInsets.zero,
       key: widget.key,
       title: Slidable(
         endActionPane: ActionPane(
