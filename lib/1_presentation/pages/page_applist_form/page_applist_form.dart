@@ -61,7 +61,11 @@ class AppListFormPage extends StatelessWidget implements AutoRouteWrapper {
               ],
             ),
             body: AppListFormWidget(state.appList),
-            // body: AppListFormWidgetEx(appList: state.appList),
+            floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
+            floatingActionButton: FloatingActionButton(
+              child: const Icon(Icons.add_task_outlined),
+              onPressed: () => _bloc.add(const AppListFormEvent.listItemAdded()),
+            ),
           );
         },
       ),

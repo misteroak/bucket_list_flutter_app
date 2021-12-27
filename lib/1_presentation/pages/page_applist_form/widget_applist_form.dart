@@ -34,12 +34,6 @@ class AppListFormWidget extends HookWidget {
               },
             ),
           ),
-          TextButton(
-            onPressed: () {
-              _bloc.add(const AppListFormEvent.listItemAdded());
-            },
-            child: const Text('Add Item'),
-          ),
         ],
       ),
     );

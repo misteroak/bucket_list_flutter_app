@@ -29,14 +29,10 @@ class AppListFormBloc extends Bloc<AppListFormEvent, AppListFormState> {
           nameChanged: (e) async {
             final AppList updatedList = state.appList.copyWith(name: e.newName);
 
-            // TODO handle error
             final res = await appListsRepository.update(updatedList);
-
-            emit(
-              state.copyWith(
-                appList: updatedList,
-                isNewItemAdded: false,
-              ),
+            res.fold(
+              (f) => emit(state.copyWith(saveError: true)),
+              (r) => emit(state.copyWith(appList: updatedList, isNewItemAdded: false)),
             );
           },
           listItemAdded: (_) {
@@ -59,29 +55,24 @@ class AppListFormBloc extends Bloc<AppListFormEvent, AppListFormState> {
 
             final AppList updatedList = state.appList.copyWithUpdatedItemtitle(e.newTitle, e.index);
 
-            // TODO handle error
             final res = await appListsRepository.update(updatedList);
-
-            emit(state.copyWith(
-              appList: updatedList,
-              isNewItemAdded: false,
-            ));
+            res.fold(
+              (f) => emit(state.copyWith(saveError: true)),
+              (r) => emit(state.copyWith(appList: updatedList, isNewItemAdded: false)),
+            );
           },
           listItemDeleted: (e) async {
             final updatedList = state.appList.copyAndRemoveItemAtIndex(e.index);
 
-            // TODO handle error
             final res = await appListsRepository.update(updatedList);
-
-            emit(state.copyWith(
-              appList: updatedList,
-              isNewItemAdded: false,
-              didJustDelete: true,
-            ));
+            res.fold(
+              (f) => emit(state.copyWith(saveError: true)),
+              (r) => emit(state.copyWith(appList: updatedList, isNewItemAdded: false, didJustDelete: true)),
+            );
           },
         );
       },
-      transformer: sequential(), // TODO: This is also part of the hack!!
+      transformer: sequential(), // NOTE: This is also part of the hack!!
     );
   }
 }
