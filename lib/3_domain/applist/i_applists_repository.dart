@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:photo_app/3_domain/core/unique_id.dart';
 
+import '../core/unique_id.dart';
 import '../entities.dart';
 import 'applist_failure.dart';
 

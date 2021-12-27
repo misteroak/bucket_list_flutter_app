@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:photo_app/app_logger.dart';
+
+import '../../app_logger.dart';
 
 class AppBlocObserver extends BlocObserver {
   @override
@@ -13,10 +14,4 @@ class AppBlocObserver extends BlocObserver {
     super.onChange(bloc, change);
     AppLogger.logger.d('${bloc.runtimeType} change 🔁: ${change.toString()}');
   }
-
-  // @override
-  // void onTransition(Bloc bloc, Transition transition) {
-  //   super.onTransition(bloc, transition);
-  //   AppLogger.logger.d('${bloc.runtimeType} trans 🔁: ${transition.event} ${transition.nextState}');
-  // }
 }

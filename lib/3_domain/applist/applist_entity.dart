@@ -1,9 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:photo_app/3_domain/applist/applist_failure.dart';
-import 'package:photo_app/3_domain/core/i_entity.dart';
-import 'package:photo_app/3_domain/core/unique_id.dart';
 
+import '../core/i_entity.dart';
+import '../core/unique_id.dart';
 import '../entities.dart';
+import 'applist_failure.dart';
 
 part 'applist_entity.freezed.dart';
 part 'applist_entity.g.dart';

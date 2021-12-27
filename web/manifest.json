@@ -1,6 +1,6 @@
 {
-    "name": "photo_app",
-    "short_name": "photo_app",
+    "name": "bucket_list_flutter_app",
+    "short_name": "bucket_list_flutter_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

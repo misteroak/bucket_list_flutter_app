@@ -2,12 +2,12 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug photo_app",
+            "name": "Debug app",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "photo_app (profile mode)",
+            "name": "bucket_list_flutter_app (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"

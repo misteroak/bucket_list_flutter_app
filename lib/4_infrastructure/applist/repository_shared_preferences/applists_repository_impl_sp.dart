@@ -3,8 +3,6 @@
 
 // // import 'package:injectable/injectable.dart';
 // import 'package:dartz/dartz.dart';
-// import 'package:photo_app/3_domain/applist/applist_failure.dart';
-// import 'package:photo_app/3_domain/entities.dart';
 // import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 // // @LazySingleton(as: IAppListsRepository)

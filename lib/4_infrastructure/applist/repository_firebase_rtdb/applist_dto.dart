@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:photo_app/3_domain/core/unique_id.dart';
 
+import '../../../3_domain/core/unique_id.dart';
 import '../../../3_domain/entities.dart';
 
 part 'applist_dto.freezed.dart';
@@ -25,17 +25,13 @@ class AppListDto with _$AppListDto {
       id: list.id.toString(),
       name: list.name,
       createdDate: list.createdTimestamp.millisecondsSinceEpoch,
-      items: list.items
-          .mapIndexed((index, element) => AppListItemDto.fromDomain(element))
-          .toList(),
+      items: list.items.mapIndexed((index, element) => AppListItemDto.fromDomain(element)).toList(),
     );
   }
 
-  factory AppListDto.fromJson(Map<String, dynamic> json) =>
-      _$AppListDtoFromJson(json);
+  factory AppListDto.fromJson(Map<String, dynamic> json) => _$AppListDtoFromJson(json);
 
-  factory AppListDto.fromRTDB(String id, Map<String, dynamic> list) =>
-      AppListDto.fromJson(list).copyWith(id: id);
+  factory AppListDto.fromRTDB(String id, Map<String, dynamic> list) => AppListDto.fromJson(list).copyWith(id: id);
 
   AppList toDomain() {
     return AppList(
@@ -66,11 +62,9 @@ class AppListMetadataDto with _$AppListMetadataDto {
     );
   }
 
-  factory AppListMetadataDto.fromJson(Map<String, dynamic> json) =>
-      _$AppListMetadataDtoFromJson(json);
+  factory AppListMetadataDto.fromJson(Map<String, dynamic> json) => _$AppListMetadataDtoFromJson(json);
 
-  factory AppListMetadataDto.fromRTDB(
-          String id, Map<String, dynamic> listJson) =>
+  factory AppListMetadataDto.fromRTDB(String id, Map<String, dynamic> listJson) =>
       AppListMetadataDto.fromJson(listJson).copyWith(id: id);
 
   AppList toDomain() {
@@ -102,8 +96,7 @@ class AppListItemDto with _$AppListItemDto {
     );
   }
 
-  factory AppListItemDto.fromJson(Map<String, dynamic> json) =>
-      _$AppListItemDtoFromJson(json);
+  factory AppListItemDto.fromJson(Map<String, dynamic> json) => _$AppListItemDtoFromJson(json);
 
   AppListItem toDomain() {
     return AppListItem(
