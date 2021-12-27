@@ -38,6 +38,7 @@ firebase.json
 database.rules.json
 .firebaserc
 package-lock.json
+GoogleService-Info.plist
 
 
 # Web related
