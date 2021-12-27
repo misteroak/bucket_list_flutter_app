@@ -1,0 +1,86 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+
+import '../../../common.dart';
+
+class AppListItemWidget extends HookWidget {
+  const AppListItemWidget(
+      {Key? key,
+      required this.index,
+      required this.initialTitle,
+      required this.autoFocus,
+      required this.onUpdate,
+      required this.onDelete})
+      : super(key: key);
+
+  final int index;
+  final String initialTitle;
+  final bool autoFocus;
+  final StringCallback onUpdate;
+  final IntCallback onDelete;
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO - do the useEffect trick???
+    final _controller = useTextEditingController();
+
+    final _focusNode = useFocusNode(debugLabel: key.toString());
+
+    onFocusChange() {
+      debugPrint('${_focusNode.debugLabel} has ${_focusNode.hasFocus ? '' : 'lost'} focus');
+
+      if (!_focusNode.hasFocus) {
+        onUpdate(_controller.value.text);
+      }
+    }
+
+    useEffect(() {
+      _controller.text = initialTitle;
+
+      _focusNode.addListener(onFocusChange);
+
+      if (autoFocus) {
+        _focusNode.requestFocus();
+      }
+      // }, [_focusNode]);
+    }, [_focusNode, initialTitle]);
+
+    return Slidable(
+      key: ValueKey(index),
+      endActionPane: const ActionPane(
+        // dismissible: DismissiblePane(onDismissed: () {}),
+        children: [
+          // SlidableAction(
+          //   icon: Icons.delete,
+          //   onPressed: (_) {
+          //     _focusNode.removeListener(() {});
+          //     _focusNode.unfocus();
+          //     onDelete(index);
+          //   },
+          // ),
+        ],
+        motion: ScrollMotion(),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(0.0),
+        child: ListTile(
+          contentPadding: EdgeInsets.zero,
+          title: TextField(
+            autocorrect: false,
+            controller: _controller,
+            focusNode: _focusNode,
+          ),
+          trailing: IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () {
+              _focusNode.removeListener(onFocusChange);
+              _focusNode.unfocus();
+              onDelete(index);
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}

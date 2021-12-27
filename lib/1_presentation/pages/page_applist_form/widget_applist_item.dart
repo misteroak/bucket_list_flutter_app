@@ -1,62 +1,83 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../../common.dart';
 
-class AppListItemWidget extends HookWidget {
-  const AppListItemWidget(
-      {Key? key,
-      required this.index,
-      required this.initialTitle,
-      required this.autoFocus,
-      required this.onUpdate,
-      required this.onDelete})
-      : super(key: key);
+class AppListItemWidget extends StatefulWidget {
+  const AppListItemWidget({
+    required Key key,
+    required this.initialTitle,
+    required this.onUpdate,
+    required this.onDelete,
+    required this.autoFocus,
+  }) : super(key: key);
 
-  final int index;
   final String initialTitle;
-  final bool autoFocus;
   final StringCallback onUpdate;
-  final IntCallback onDelete;
+  final VoidCallback onDelete;
+  final bool autoFocus;
+
+  @override
+  _AppListItemWidgetState createState() => _AppListItemWidgetState();
+}
+
+class _AppListItemWidgetState extends State<AppListItemWidget> {
+  late TextEditingController _controller;
+  late FocusNode _focusNode;
+  bool _isDeleting = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = TextEditingController(text: widget.initialTitle);
+    _focusNode = FocusNode();
+    if (widget.autoFocus) _focusNode.requestFocus();
+
+    _focusNode.addListener(
+      () {
+        if (_focusNode.hasFocus) return;
+
+        if (!_isDeleting) {
+          widget.onUpdate(_controller.text);
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final _controller = useTextEditingController(text: initialTitle);
-
-    final _focusNode = useFocusNode(debugLabel: key.toString());
-
-    useEffect(() {
-      _focusNode.addListener(
-        () {
-          debugPrint(
-              '${_focusNode.debugLabel} has ${_focusNode.hasFocus ? '' : 'lost'} focus');
-
-          if (!_focusNode.hasFocus) {
-            onUpdate(_controller.value.text);
-          }
-        },
-      );
-
-      if (autoFocus) {
-        _focusNode.requestFocus();
-      }
-    }, [_focusNode]);
-
-    return Padding(
-      padding: const EdgeInsets.all(0.0),
-      child: ListTile(
-        contentPadding: EdgeInsets.zero,
-        title: TextField(
+    return ListTile(
+      key: widget.key,
+      title: Slidable(
+        endActionPane: ActionPane(
+          // dismissible: DismissiblePane(onDismissed: () {}),
+          children: [
+            SlidableAction(
+              autoClose: true,
+              spacing: 0,
+              backgroundColor: Colors.red,
+              icon: Icons.delete,
+              onPressed: (_) {
+                _isDeleting = true;
+                widget.onDelete();
+                FocusScope.of(context).unfocus();
+              },
+            ),
+          ],
+          motion: const ScrollMotion(),
+        ),
+        child: TextField(
+          autocorrect: false,
           controller: _controller,
           focusNode: _focusNode,
-        ),
-        trailing: IconButton(
-          icon: const Icon(Icons.delete),
-          onPressed: () {
-            _focusNode.removeListener(() {});
-            _focusNode.unfocus();
-            onDelete(index);
-          },
         ),
       ),
     );

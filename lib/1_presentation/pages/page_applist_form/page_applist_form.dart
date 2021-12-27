@@ -1,18 +1,20 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:photo_app/1_presentation/common_widgets/widget_padding_button.dart';
 
 import '../../../2_application/blocs.dart';
 import '../../../3_domain/entities.dart';
 import '../../../injection.dart';
+import '../../common/common.dart';
+import '../../common/widget_padding_button.dart';
 import 'widget_appbar_text_field.dart';
 import 'widget_applist_form.dart';
 
 class AppListFormPage extends StatelessWidget implements AutoRouteWrapper {
-  const AppListFormPage({Key? key, required this.list}) : super(key: key);
+  const AppListFormPage({Key? key, required this.list, this.createNew = false}) : super(key: key);
 
   final AppList list;
+  final bool createNew;
 
   @override
   Widget wrappedRoute(BuildContext context) {
@@ -33,41 +35,35 @@ class AppListFormPage extends StatelessWidget implements AutoRouteWrapper {
     return GestureDetector(
       onTap: () {
         // Add this to enable unfocus text boxes when clicking outside
-        FocusScope.of(context).requestFocus(FocusNode());
+        // FocusScope.of(context).requestFocus(FocusNode());
+        FocusScope.of(context).unfocus();
       },
-      child: Scaffold(
-        appBar: AppBar(
-          title: BlocBuilder<AppListFormBloc, AppListFormState>(
-            builder: (context, state) {
-              return AppBarTextInput(
+      child: BlocConsumer<AppListFormBloc, AppListFormState>(
+        listenWhen: (previous, current) {
+          if (current.saveError == null) return false;
+          return (previous.isSaving && !current.isSaving);
+        },
+        listener: (context, state) {
+          if (state.saveError!) {
+            showSnackBar(context, 'Error saving list :(');
+          }
+        },
+        builder: (context, state) {
+          return Scaffold(
+            appBar: AppBar(
+              title: AppBarTextInput(
                 initialValue: state.appList.name,
                 onUnfocus: (newValue) => _bloc.add(AppListFormEvent.nameChanged(newValue)),
-              );
-            },
-          ),
-          actions: const [
-            PaddingButton(),
-          ],
-        ),
-        body: BlocListener<AppListFormBloc, AppListFormState>(
-          listenWhen: (previous, current) {
-            if (current.saveError == null) return false;
-            return (previous.isSaving && !current.isSaving);
-          },
-          listener: (context, state) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: !state.saveError! ? const Text('List saved successfully!') : const Text('Error saving list'),
+                autoFocus: createNew,
               ),
-            );
-          },
-          child: const Center(
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 8),
-              child: AppListFormWidget(),
+              actions: const [
+                PaddingButton(),
+              ],
             ),
-          ),
-        ),
+            body: AppListFormWidget(state.appList),
+            // body: AppListFormWidgetEx(appList: state.appList),
+          );
+        },
       ),
     );
   }

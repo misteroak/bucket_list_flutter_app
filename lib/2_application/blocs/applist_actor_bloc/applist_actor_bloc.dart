@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:photo_app/1_presentation/constants.dart' as constants;
-import 'package:photo_app/3_domain/core/unique_id.dart';
 
+import '../../../1_presentation/common/app_strings.dart' as constants;
+import '../../../3_domain/core/unique_id.dart';
 import '../../../3_domain/entities.dart';
 
 part 'applist_actor_bloc.freezed.dart';
@@ -22,9 +22,9 @@ class AppListActorBloc extends Bloc<AppListActorEvent, AppListActorState> {
           final listOrFailure = await _appListsRepository.getList(e.appListId);
 
           listOrFailure.fold(
-              // TODO: Listen to this state
-              (f) => emit(const AppListActorState.getListError()),
-              (r) => emit(AppListActorState.getListSuccess(r)));
+            (f) => emit(const AppListActorState.getListError()),
+            (r) => emit(AppListActorState.getListSuccess(r)),
+          );
         },
 
         // Create New List
@@ -33,9 +33,8 @@ class AppListActorBloc extends Bloc<AppListActorEvent, AppListActorState> {
           final res = await _appListsRepository.create(newList);
 
           res.fold(
-            // TODO - listen to this state
             (failure) => emit(const AppListActorState.newListCreatedError()),
-            (r) {},
+            (r) => emit(AppListActorState.newListCreatedSuccessfully(newList)),
           );
         },
         // Delete List

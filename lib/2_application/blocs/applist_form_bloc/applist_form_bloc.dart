@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
@@ -35,7 +36,6 @@ class AppListFormBloc extends Bloc<AppListFormEvent, AppListFormState> {
               state.copyWith(
                 appList: updatedList,
                 isNewItemAdded: false,
-                // isDirty: true,
               ),
             );
           },
@@ -44,11 +44,19 @@ class AppListFormBloc extends Bloc<AppListFormEvent, AppListFormState> {
               state.copyWith(
                 appList: state.appList.copyAndAddNewItem(),
                 isNewItemAdded: true,
-                // isDirty: true,
               ),
             );
           },
           finishedEditingItem: (e) async {
+            if (state.didJustDelete) {
+              // Do nothing in this case....
+              // This is how I dealt with the hack mentioned in AppListFormState
+              emit(state.copyWith(
+                didJustDelete: false,
+              ));
+              return;
+            }
+
             final AppList updatedList = state.appList.copyWithUpdatedItemtitle(e.newTitle, e.index);
 
             // TODO handle error
@@ -57,7 +65,6 @@ class AppListFormBloc extends Bloc<AppListFormEvent, AppListFormState> {
             emit(state.copyWith(
               appList: updatedList,
               isNewItemAdded: false,
-              // isDirty: true,
             ));
           },
           listItemDeleted: (e) async {
@@ -69,11 +76,12 @@ class AppListFormBloc extends Bloc<AppListFormEvent, AppListFormState> {
             emit(state.copyWith(
               appList: updatedList,
               isNewItemAdded: false,
-              // isDirty: true,
+              didJustDelete: true,
             ));
           },
         );
       },
+      transformer: sequential(), // TODO: This is also part of the hack!!
     );
   }
 }
