@@ -27,7 +27,7 @@ class AppListFormWidget extends HookWidget {
                 return AppListItemWidget(
                   key: ValueKey(appList.items[i].id.toString()),
                   initialTitle: appList.items[i].title,
-                  onUpdate: (newValue) => _bloc.add(AppListFormEvent.finishedEditingItem(i, newValue)),
+                  onUpdate: (newValue) => _bloc.add(AppListFormEvent.listItemUpdated(i, newValue)),
                   onDelete: () => _bloc.add(AppListFormEvent.listItemDeleted(i)),
                   autoFocus: _bloc.state.isNewItemAdded && i == appList.items.length - 1,
                 );

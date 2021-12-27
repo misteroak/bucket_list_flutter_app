@@ -3,7 +3,6 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../../common.dart';
 
-// TODO: Use hooks
 class AppListItemWidget extends StatefulWidget {
   const AppListItemWidget({
     required Key key,
@@ -25,25 +24,14 @@ class AppListItemWidget extends StatefulWidget {
 class _AppListItemWidgetState extends State<AppListItemWidget> {
   late TextEditingController _controller;
   late FocusNode _focusNode;
-  bool _isDeleting = false;
 
   @override
   void initState() {
     super.initState();
-
     _controller = TextEditingController(text: widget.initialTitle);
     _focusNode = FocusNode();
+
     if (widget.autoFocus) _focusNode.requestFocus();
-
-    _focusNode.addListener(
-      () {
-        if (_focusNode.hasFocus) return;
-
-        if (!_isDeleting) {
-          widget.onUpdate(_controller.text);
-        }
-      },
-    );
   }
 
   @override
@@ -68,9 +56,7 @@ class _AppListItemWidgetState extends State<AppListItemWidget> {
               backgroundColor: Colors.red,
               icon: Icons.delete,
               onPressed: (_) {
-                _isDeleting = true;
                 widget.onDelete();
-                FocusScope.of(context).unfocus();
               },
             ),
           ],
@@ -79,6 +65,7 @@ class _AppListItemWidgetState extends State<AppListItemWidget> {
         child: TextField(
           autocorrect: false,
           controller: _controller,
+          onChanged: (value) => widget.onUpdate(value),
           focusNode: _focusNode,
         ),
       ),

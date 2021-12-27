@@ -43,16 +43,7 @@ class AppListFormBloc extends Bloc<AppListFormEvent, AppListFormState> {
               ),
             );
           },
-          finishedEditingItem: (e) async {
-            if (state.didJustDelete) {
-              // Do nothing in this case....
-              // This is how I dealt with the hack mentioned in AppListFormState
-              emit(state.copyWith(
-                didJustDelete: false,
-              ));
-              return;
-            }
-
+          listItemUpdated: (e) async {
             final AppList updatedList = state.appList.copyWithUpdatedItemtitle(e.newTitle, e.index);
 
             final res = await appListsRepository.update(updatedList);
@@ -67,7 +58,7 @@ class AppListFormBloc extends Bloc<AppListFormEvent, AppListFormState> {
             final res = await appListsRepository.update(updatedList);
             res.fold(
               (f) => emit(state.copyWith(saveError: true)),
-              (r) => emit(state.copyWith(appList: updatedList, isNewItemAdded: false, didJustDelete: true)),
+              (r) => emit(state.copyWith(appList: updatedList, isNewItemAdded: false)),
             );
           },
         );

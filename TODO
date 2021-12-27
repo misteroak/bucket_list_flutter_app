@@ -1,9 +1,7 @@
 
 Todo:
+  ☐ When adding a new item - scoll list to it
   ☐ Bug - delete an item while another item has focus - leaves the edited item empty view :(((
-  ☐ Make keyboard shrink list
-
-
   ☐ Add animations: page transitions, list scrolls
   ☐ Make global material cuppertino
   ☐ Figure out low performance of list page

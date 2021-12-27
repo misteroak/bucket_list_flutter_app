@@ -4,7 +4,7 @@ part of 'applist_form_bloc.dart';
 class AppListFormEvent with _$AppListFormEvent {
   const factory AppListFormEvent.initialized(AppList initialList) = _Initialized;
   const factory AppListFormEvent.nameChanged(String newName) = _NameChanged;
-  const factory AppListFormEvent.finishedEditingItem(int index, String newTitle) = _FinishedEditingItem;
+  const factory AppListFormEvent.listItemUpdated(int index, String newTitle) = _ListItemUpdated;
   const factory AppListFormEvent.listItemAdded() = _ItemAdded;
   const factory AppListFormEvent.listItemDeleted(int index) = _ItemDeleted;
 }
