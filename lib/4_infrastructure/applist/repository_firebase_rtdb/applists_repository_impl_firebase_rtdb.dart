@@ -8,9 +8,9 @@ import '../../../3_domain/core/unique_id.dart';
 import '../../../3_domain/entities.dart';
 import 'applist_dto.dart';
 
-class DatabasePaths {
-  static const String listsIndexRoot = '/listMetadata/';
-  static const String listsRoot = '/listsFull/';
+class Paths {
+  static const String indexRoot = '/listsIndex/';
+  static const String fullRoot = '/listsFull/';
 }
 
 @LazySingleton(as: IAppListsRepository)
@@ -21,7 +21,7 @@ class AppListsFirebaseRepository implements IAppListsRepository {
 
   @override
   Stream<Either<AppListFailure, List<AppList>>> watchListsIndex() async* {
-    yield* database.child(DatabasePaths.listsIndexRoot).onValue.map(
+    yield* database.child(Paths.indexRoot).orderByChild('orderIndex').onValue.map(
       (event) {
         if (null == event.snapshot.value) {
           return right<AppListFailure, List<AppList>>([]);
@@ -50,9 +50,27 @@ class AppListsFirebaseRepository implements IAppListsRepository {
   }
 
   @override
+  Future<Either<AppListFailure, Unit>> updateListsIndex(List<AppList> lists) async {
+    try {
+      final Map<String, dynamic> updatedListsIndex = {};
+      for (var i = 0; i < lists.length; i++) {
+        updatedListsIndex[lists[i].id.toString()] = AppListMetadataDto.fromDomain(lists[i], i).toJson();
+      }
+
+      final Map<String, dynamic> updates = {};
+      updates[Paths.indexRoot] = updatedListsIndex;
+      await database.update(updates);
+
+      return Future.value(right<AppListFailure, Unit>(unit));
+    } catch (e) {
+      return Future.value(left<AppListFailure, Unit>(const AppListFailure.unexpected()));
+    }
+  }
+
+  @override
   Future<Either<AppListFailure, AppList>> getList(UniqueId id) async {
     try {
-      final appListValue = (await database.child(DatabasePaths.listsRoot + id.toString()).once()).value;
+      final appListValue = (await database.child(Paths.fullRoot + id.toString()).once()).value;
       final appListJson = Map<String, dynamic>.from(appListValue);
 
       final appList = AppListDto.fromRTDB(id.toString(), appListJson).toDomain();
@@ -64,15 +82,22 @@ class AppListsFirebaseRepository implements IAppListsRepository {
   }
 
   @override
-  Future<Either<AppListFailure, Unit>> create(AppList appList) async {
+  Future<Either<AppListFailure, Unit>> create(AppList appList, int orderIndex) async {
     try {
-      // Check if list already exists. This is just for extra safety, probably not really needed
-      final appListValue = (await database.child(DatabasePaths.listsIndexRoot + appList.id.toString()).once()).value;
+      // Return error if list already exists
+      final appListValue = (await database.child(Paths.indexRoot + appList.id.toString()).once()).value;
       if (null != appListValue) {
         return Future.value(left<AppListFailure, Unit>(const AppListFailure.unexpected()));
       }
 
-      return _update(appList);
+      final Map<String, dynamic> updates = {
+        Paths.indexRoot + appList.id.toString(): AppListMetadataDto.fromDomain(appList, orderIndex).toJson(),
+        Paths.fullRoot + appList.id.toString(): AppListDto.fromDomain(appList).toJson(),
+      };
+
+      await database.update(updates);
+
+      return Future.value(right<AppListFailure, Unit>(unit));
     } catch (e) {
       // TODO: Log error - list id already exists
       return Future.value(left<AppListFailure, Unit>(const AppListFailure.unexpected()));
@@ -80,17 +105,21 @@ class AppListsFirebaseRepository implements IAppListsRepository {
   }
 
   @override
-  Future<Either<AppListFailure, Unit>> update(AppList appList) {
-    return _update(appList);
-  }
-
-  Future<Either<AppListFailure, Unit>> _update(AppList appList) async {
+  // TODO: Create an UpdateListItem function so this is not called each time a list item is changed!!
+  Future<Either<AppListFailure, Unit>> update(AppList appList) async {
     try {
-      final Map<String, dynamic> updates = {};
+      final orderIndex =
+          (await database.child(Paths.indexRoot + appList.id.toString()).child('orderIndex').once()).value;
 
-      updates[DatabasePaths.listsIndexRoot + appList.id.toString()] = AppListMetadataDto.fromDomain(appList).toJson();
+      final Map<String, dynamic> updates = {
+        Paths.indexRoot + appList.id.toString(): AppListMetadataDto.fromDomain(appList, orderIndex).toJson(),
+        Paths.fullRoot + appList.id.toString(): AppListDto.fromDomain(appList).toJson(),
+      };
 
-      updates[DatabasePaths.listsRoot + appList.id.toString()] = AppListDto.fromDomain(appList).toJson();
+      // final Map<String, dynamic> updates = {};
+      // updates[Paths.metadataRoot + appList.id.toString()] = AppListMetadataDto.fromDomain(appList).toJson();
+
+      // updates[Paths.fullRoot + appList.id.toString()] = AppListDto.fromDomain(appList).toJson();
 
       await database.update(updates);
 
@@ -106,8 +135,8 @@ class AppListsFirebaseRepository implements IAppListsRepository {
     try {
       final Map<String, dynamic> updates = {};
 
-      updates[DatabasePaths.listsIndexRoot + id.toString()] = null;
-      updates[DatabasePaths.listsRoot + id.toString()] = null;
+      updates[Paths.indexRoot + id.toString()] = null;
+      updates[Paths.fullRoot + id.toString()] = null;
 
       await database.update(updates);
 

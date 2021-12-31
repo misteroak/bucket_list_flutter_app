@@ -17,7 +17,14 @@ class AppListActorBloc extends Bloc<AppListActorEvent, AppListActorState> {
   AppListActorBloc(this._appListsRepository) : super(const AppListActorState.initial()) {
     on<AppListActorEvent>((event, emit) async {
       await event.map(
-        // Get List
+        updateListsIndex: (e) async {
+          final listOrFailure = await _appListsRepository.updateListsIndex(e.lists);
+
+          listOrFailure.fold(
+            (f) => emit(const AppListActorState.updateListsIndexError()),
+            (r) => null, // do nothing, list watcher block will act on this
+          );
+        },
         getList: (e) async {
           final listOrFailure = await _appListsRepository.getList(e.appListId);
 
@@ -26,18 +33,15 @@ class AppListActorBloc extends Bloc<AppListActorEvent, AppListActorState> {
             (r) => emit(AppListActorState.getListSuccess(r)),
           );
         },
-
-        // Create New List
         createNewList: (e) async {
           final newList = AppList.empty().copyWith(name: e.listName ?? constants.defaultNewListName);
-          final res = await _appListsRepository.create(newList);
+          final res = await _appListsRepository.create(newList, e.orderIndex);
 
           res.fold(
             (failure) => emit(const AppListActorState.newListCreatedError()),
             (r) => emit(AppListActorState.newListCreatedSuccessfully(newList)),
           );
         },
-        // Delete List
         deleteList: (e) async {
           final res = await _appListsRepository.delete(e.appList.id);
           res.fold(

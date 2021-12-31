@@ -52,13 +52,15 @@ class AppListMetadataDto with _$AppListMetadataDto {
     @JsonKey(ignore: true) String? id,
     required String name,
     required int createdDate,
+    required int orderIndex,
   }) = _AppListMetadataDto;
 
-  factory AppListMetadataDto.fromDomain(AppList list) {
+  factory AppListMetadataDto.fromDomain(AppList list, int orderIndex) {
     return AppListMetadataDto(
       id: list.id.toString(),
       name: list.name,
       createdDate: list.createdTimestamp.millisecondsSinceEpoch,
+      orderIndex: orderIndex,
     );
   }
 
@@ -82,7 +84,6 @@ class AppListItemDto with _$AppListItemDto {
   const AppListItemDto._();
 
   factory AppListItemDto({
-    // ignore: invalid_annotation_target
     required String id,
     required String title,
     required bool checked,

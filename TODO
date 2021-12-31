@@ -6,6 +6,7 @@ Todo:
   ☐ Make global material cuppertino
   ☐ Figure out low performance of list page
   ☐ Authentication
+  ☐ How to deal with client disconnects from the server? - https://firebase.flutter.dev/docs/database/usage#offline-capabilities
 
 Next step: Save things automatically:
   ☐ UI cleanups

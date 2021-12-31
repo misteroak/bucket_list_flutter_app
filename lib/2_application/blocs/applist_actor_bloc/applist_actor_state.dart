@@ -4,6 +4,9 @@ part of 'applist_actor_bloc.dart';
 class AppListActorState with _$AppListActorState {
   const factory AppListActorState.initial() = _Initial;
 
+  // Update lists index
+  const factory AppListActorState.updateListsIndexError() = _$updateListsIndexError;
+
   // Read
   const factory AppListActorState.getListSuccess(AppList appList) = _$getListSuccess;
   const factory AppListActorState.getListError() = _$getListError;
