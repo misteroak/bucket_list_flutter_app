@@ -53,7 +53,7 @@ class AppListFormPage extends StatelessWidget implements AutoRouteWrapper {
             appBar: AppBar(
               title: AppBarTextInput(
                 initialValue: state.appList.name,
-                onUnfocus: (newValue) => _bloc.add(AppListFormEvent.nameChanged(newValue)),
+                onUnfocus: (newValue) => _bloc.add(AppListFormEvent.listNameChanged(newValue)),
                 autoFocus: createNew,
               ),
               actions: const [

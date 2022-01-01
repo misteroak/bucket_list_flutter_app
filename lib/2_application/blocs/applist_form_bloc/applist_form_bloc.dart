@@ -26,7 +26,7 @@ class AppListFormBloc extends Bloc<AppListFormEvent, AppListFormState> {
               ),
             );
           },
-          nameChanged: (e) async {
+          listNameChanged: (e) async {
             final AppList updatedList = state.appList.copyWith(name: e.newName);
 
             final res = await appListsRepository.update(updatedList);

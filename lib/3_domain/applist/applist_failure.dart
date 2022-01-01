@@ -4,6 +4,6 @@ part 'applist_failure.freezed.dart';
 
 @freezed
 class AppListFailure with _$AppListFailure {
-  const factory AppListFailure.unexpected() = Unexpected;
-  const factory AppListFailure.listIdAlreadyExists() = ListIdAlreadyExists;
+  const factory AppListFailure.unexpected({String? message}) = Unexpected;
+  const factory AppListFailure.listIdAlreadyExists(String? message) = ListIdAlreadyExists;
 }

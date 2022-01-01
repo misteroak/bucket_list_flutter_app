@@ -19,46 +19,58 @@ class AppListsFirebaseRepository implements IAppListsRepository {
 
   AppListsFirebaseRepository(this.database);
 
+  List<AppListMetadataDto> rtdbListToDto(dynamic rtdbValue) {
+    final valueAsJson = Map<String, dynamic>.from(rtdbValue);
+
+    final List<AppListMetadataDto> res = valueAsJson.keys.map(
+      (key) {
+        final listMetadataDto = AppListMetadataDto.fromRTDB(
+          key,
+          Map<String, dynamic>.from(valueAsJson[key]),
+        );
+        return listMetadataDto;
+      },
+    ).toList();
+
+    return res;
+  }
+
   @override
   Stream<Either<AppListFailure, List<AppList>>> watchListsIndex() async* {
     yield* database.child(Paths.indexRoot).orderByChild('orderIndex').onValue.map(
       (event) {
         if (null == event.snapshot.value) {
-          return right<AppListFailure, List<AppList>>([]);
+          return right<AppListFailure, List<AppList>>(List<AppList>.empty());
         }
 
-        final listsJsons = Map<String, dynamic>.from(event.snapshot.value);
-
-        final List<AppList> res = listsJsons.keys.map(
-          (key) {
-            final listMetadataDto = AppListMetadataDto.fromRTDB(
-              key,
-              Map<String, dynamic>.from(listsJsons[key]),
-            );
-            return listMetadataDto.toDomain();
-          },
-        ).toList();
+        final List<AppList> res = rtdbListToDto(event.snapshot.value).map((e) => e.toDomain()).toList();
 
         return right<AppListFailure, List<AppList>>(res);
       },
     ).onErrorReturnWith(
       (error, stackTrace) {
-        // TODO: Log error
-        return left<AppListFailure, List<AppList>>(const AppListFailure.unexpected());
+        // TODO: Log error properly
+        return left<AppListFailure, List<AppList>>(AppListFailure.unexpected(message: error.toString()));
       },
     );
+  }
+
+  Map<String, dynamic> updateListsDtoOrderIndices(List<AppListMetadataDto> lists) {
+    final Map<String, dynamic> updatedListsIndex = {};
+    for (var i = 0; i < lists.length; i++) {
+      updatedListsIndex[lists[i].id.toString()] = lists[i].copyWith(orderIndex: i).toJson();
+    }
+    return updatedListsIndex;
   }
 
   @override
   Future<Either<AppListFailure, Unit>> updateListsIndex(List<AppList> lists) async {
     try {
-      final Map<String, dynamic> updatedListsIndex = {};
-      for (var i = 0; i < lists.length; i++) {
-        updatedListsIndex[lists[i].id.toString()] = AppListMetadataDto.fromDomain(lists[i], i).toJson();
-      }
-
       final Map<String, dynamic> updates = {};
-      updates[Paths.indexRoot] = updatedListsIndex;
+
+      final listsDtos = lists.map((e) => AppListMetadataDto.fromDomain(e, lists.indexOf(e))).toList();
+
+      updates[Paths.indexRoot] = updateListsDtoOrderIndices(listsDtos);
       await database.update(updates);
 
       return Future.value(right<AppListFailure, Unit>(unit));
@@ -84,7 +96,7 @@ class AppListsFirebaseRepository implements IAppListsRepository {
   @override
   Future<Either<AppListFailure, Unit>> create(AppList appList, int orderIndex) async {
     try {
-      // Return error if list already exists
+      // Error if list already exists
       final appListValue = (await database.child(Paths.indexRoot + appList.id.toString()).once()).value;
       if (null != appListValue) {
         return Future.value(left<AppListFailure, Unit>(const AppListFailure.unexpected()));
@@ -135,7 +147,16 @@ class AppListsFirebaseRepository implements IAppListsRepository {
     try {
       final Map<String, dynamic> updates = {};
 
-      updates[Paths.indexRoot + id.toString()] = null;
+      // 1) Remove the metadata item form the lists index, and update the orderIndex
+
+      final listsIndexJson = (await database.child(Paths.indexRoot).orderByChild('orderIndex').once()).value;
+      final listsDtos = rtdbListToDto(listsIndexJson);
+      listsDtos.removeWhere((element) => UniqueId.fromUniqueString(element.id!) == id);
+      final updatedListsIndex = updateListsDtoOrderIndices(listsDtos);
+
+      updates[Paths.indexRoot] = updatedListsIndex;
+
+      // 2 Remove the full list data
       updates[Paths.fullRoot + id.toString()] = null;
 
       await database.update(updates);

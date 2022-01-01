@@ -42,14 +42,3 @@ class CustomTheme {
     );
   }
 }
-
-// TextButtonThemeData appTextButtonThemeData = TextButtonThemeData(
-//   style: TextButton.styleFrom(
-//     primary: Colors.white,
-//     backgroundColor: Colors.white10,
-//     padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
-//     shape: RoundedRectangleBorder(
-//       borderRadius: BorderRadius.circular(6),
-//     ),
-//   ),
-// );

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -17,25 +15,24 @@ class AppListsWatcherBloc extends Bloc<AppListsWatcherEvent, AppListsWatcherStat
   final IAppListsRepository _appListsRepository;
 
   AppListsWatcherBloc(this._appListsRepository) : super(const AppListsWatcherState.initial()) {
-    on<AppListsWatcherEvent>((event, emit) async {
-      await event.map(
+    on<AppListsWatcherEvent>(
+      (event, emit) async {
+        await event.map(
           // Load Lists
           watchLists: (e) async {
-        emit(const AppListsWatcherState.loadingLists());
+            emit(const AppListsWatcherState.watchingLists());
 
-        // See: https://github.com/felangel/bloc/issues/2784#issuecomment-963549466
-        await emit.forEach(_appListsRepository.watchListsIndex(),
-            onData: (Either<AppListFailure, List<AppList>> e) => e.fold(
-                  (_) => const AppListsWatcherState.loadFailed(),
-                  (list) => AppListsWatcherState.loadedSuccessfully(list),
-                ));
-      });
-    });
-  }
-
-  @override
-  Future<void> close() async {
-    // await _listsStreamSubscription?.cancel();
-    return super.close();
+            // See: https://github.com/felangel/bloc/issues/2784#issuecomment-963549466
+            await emit.forEach(
+              _appListsRepository.watchListsIndex(),
+              onData: (Either<AppListFailure, List<AppList>> e) => e.fold(
+                (f) => AppListsWatcherState.watchListsFailed(message: f.message),
+                (list) => AppListsWatcherState.watchListsSuccess(list),
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 }
