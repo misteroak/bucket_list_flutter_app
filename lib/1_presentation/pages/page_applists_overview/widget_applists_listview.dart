@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 import 'package:implicitly_animated_reorderable_list/transitions.dart';
 
@@ -32,29 +33,60 @@ class AppListsListView extends StatelessWidget {
         return Reorderable(
           key: ValueKey(item.id),
           builder: (context, dragAnimation, inDrag) {
-            final t = dragAnimation.value;
-            final elevation = lerpDouble(0, 8, t);
-            final color = Color.lerp(Colors.white, Colors.white.withOpacity(0.8), t);
+            return AnimatedBuilder(
+              animation: dragAnimation,
+              builder: (context, child) {
+                final t = dragAnimation.value;
+                final elevation = lerpDouble(0, 10, t);
+                // final color = Color.lerp(Colors.white, Colors.grey, t);
 
-            return SizeFadeTransition(
-              sizeFraction: 0.7,
-              curve: Curves.easeInOut,
-              animation: itemAnimation,
-              child: Material(
-                color: color,
-                elevation: elevation!,
-                type: MaterialType.transparency,
-                child: Handle(
-                  child: ListTile(
-                    title: Text(item.name),
-                    onTap: () => onListTap(i),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () => onListDelete(i),
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 8.0),
+                  child: Material(
+                    clipBehavior: Clip.antiAlias,
+                    borderRadius: BorderRadius.circular(20),
+                    elevation: elevation!,
+                    color: Theme.of(context).colorScheme.surface,
+                    child: SizeFadeTransition(
+                      sizeFraction: 0.3,
+                      curve: Curves.easeInOut,
+                      animation: itemAnimation,
+                      child: Handle(
+                        delay: const Duration(milliseconds: 800),
+                        child: Slidable(
+                          closeOnScroll: true,
+                          enabled: !inDrag,
+                          endActionPane: ActionPane(
+                            motion: const ScrollMotion(),
+                            children: [
+                              SlidableAction(
+                                autoClose: true,
+                                backgroundColor: Theme.of(context).colorScheme.secondary,
+                                icon: Icons.delete,
+                                onPressed: (_) => onListDelete(i),
+                              )
+                            ],
+                          ),
+                          child: SizedBox(
+                            height: 80,
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    item.name,
+                                    style: Theme.of(context).textTheme.headline6,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
+                );
+              },
             );
           },
         );

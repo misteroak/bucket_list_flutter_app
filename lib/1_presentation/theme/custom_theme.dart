@@ -10,19 +10,39 @@ class CustomTheme {
   static ThemeData get lightTheme {
     // Main Theme
     final ThemeData theme = FlexThemeData.light(
-      scheme: FlexScheme.damask,
-      fontFamily: GoogleFonts.oswald().fontFamily,
+      scheme: FlexScheme.hippieBlue,
+      fontFamily: GoogleFonts.dosis().fontFamily,
+      textTheme: const TextTheme(
+        headline1: TextStyle(fontSize: 60),
+        headline2: TextStyle(fontSize: 40),
+        button: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      ),
     );
 
+    print(theme.textTheme);
     // Overrides
     return theme.copyWith(
+      scaffoldBackgroundColor: const Color(0xFFDDE3F1),
       textTheme: theme.textTheme.copyWith(
         subtitle1: theme.textTheme.subtitle1!.copyWith(
           fontSize: 20,
         ),
       ),
       appBarTheme: theme.appBarTheme.copyWith(
-        titleTextStyle: const TextStyle(fontSize: 30),
+        titleTextStyle: theme.textTheme.headline1!.copyWith(
+          fontSize: 30,
+          fontWeight: FontWeight.bold,
+          color: theme.colorScheme.secondary,
+        ),
+        backgroundColor: Colors.transparent,
+      ),
+      bottomAppBarTheme: theme.bottomAppBarTheme.copyWith(
+        color: const Color(0xFFDDE3F1).darken(5),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          primary: theme.colorScheme.secondary,
+        ),
       ),
       inputDecorationTheme: theme.inputDecorationTheme.copyWith(
         contentPadding: const EdgeInsets.symmetric(

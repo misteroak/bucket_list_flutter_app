@@ -31,17 +31,11 @@ class ListsOverviewPage extends StatelessWidget implements AutoRouteWrapper {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: Text(
-          'Buckets List',
-          style: Theme.of(context).textTheme.headline4!.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-        ),
+        title: const Text('Buckets List'),
       ),
       body: BlocListener<AppListsActorBloc, AppListsActorState>(
         listener: (context, state) {
-          // I intentionally not using mapMaybe, I want to make sure all states are treated
+          // I am intentionally not using mapMaybe, I want to make sure all states are treated
           state.map(
             getListFailed: (_) => showSnackBar(context, 'Unable to load list'),
             createListFailed: (_) => showSnackBar(context, 'Unable to create new list'),
@@ -56,45 +50,56 @@ class ListsOverviewPage extends StatelessWidget implements AutoRouteWrapper {
           listener: (context, state) {
             state.map(
               watchListsFailed: (_) => showSnackBar(context, 'Error loading lists'),
-              initial: (_) {},
               watchListsSuccess: (_) {},
               watchingLists: (_) {},
+              initial: (_) {},
             );
           },
           builder: (context, state) {
             return state.map(
               initial: (_) => Container(),
-              watchingLists: (_) =>
-                  const Center(child: SizedBox(height: 50, width: 50, child: CircularProgressIndicator())),
+              watchingLists: (_) => const Center(
+                child: SizedBox(height: 50, width: 50, child: CircularProgressIndicator()),
+              ),
               watchListsFailed: (_) => Container(),
               watchListsSuccess: (e) {
-                return AppListsListView(
-                  appListsList: e.appLists,
-                  onListDelete: (i) {
-                    actorBloc.add(AppListsActorEvent.deleteList(e.appLists[i]));
-                  },
-                  onListTap: (i) => {},
-                  onOrderChanged: (newLists) {
-                    actorBloc.add(AppListsActorEvent.updateListsIndices(newLists));
-                  },
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                  child: AppListsListView(
+                    appListsList: e.appLists,
+                    onListDelete: (i) {
+                      actorBloc.add(AppListsActorEvent.deleteList(e.appLists[i]));
+                    },
+                    onListTap: (i) => {},
+                    onOrderChanged: (newLists) {
+                      actorBloc.add(AppListsActorEvent.updateListsIndices(newLists));
+                    },
+                  ),
                 );
               },
             );
           },
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
-      floatingActionButton: BlocBuilder<AppListsWatcherBloc, AppListsWatcherState>(
-        builder: (context, state) {
-          return state.maybeMap(
-            orElse: () => Container(),
-            watchListsSuccess: (e) => FloatingActionButton(
-              child: const Icon(Icons.add_rounded),
-              onPressed: () => actorBloc.add(AppListsActorEvent.createList(e.appLists.length)),
-              // onPressed: () => {},
+      bottomNavigationBar: BottomAppBar(
+        notchMargin: 0,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            BlocBuilder<AppListsWatcherBloc, AppListsWatcherState>(
+              builder: (context, state) {
+                return state.maybeMap(
+                  orElse: () => Container(),
+                  watchListsSuccess: (e) => TextButton(
+                    child: const Text('Add List'),
+                    onPressed: () => actorBloc.add(AppListsActorEvent.createList(e.appLists.length)),
+                    // onPressed: () => {},
+                  ),
+                );
+              },
             ),
-          );
-        },
+          ],
+        ),
       ),
     );
   }
