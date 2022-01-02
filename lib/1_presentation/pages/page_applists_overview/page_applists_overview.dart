@@ -31,7 +31,7 @@ class ListsOverviewPage extends StatelessWidget implements AutoRouteWrapper {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: const Text('Buckets List'),
+        title: const Text('Lists'),
       ),
       body: BlocListener<AppListsActorBloc, AppListsActorState>(
         listener: (context, state) {
@@ -41,8 +41,11 @@ class ListsOverviewPage extends StatelessWidget implements AutoRouteWrapper {
             createListFailed: (_) => showSnackBar(context, 'Unable to create new list'),
             deleteListError: (_) => showSnackBar(context, 'Unable to delete list'),
             updateListsIndicesFailed: (_) => showSnackBar(context, 'Error ordering list'),
-            createListSuccess: (e) => context.router.push(AppListFormPageRoute(list: e.newAppList, createNew: true)),
-            getListSuccess: (e) => context.router.push(AppListFormPageRoute(list: e.appList)),
+            createListSuccess: (e) => {context.router.push(AppListFormPageRoute(list: e.newAppList, createNew: true))},
+            getListSuccess: (e) {
+              // TODO: Fix bug - clicking same list item again after it was opened doesn't work
+              context.router.push(AppListFormPageRoute(list: e.appList));
+            },
             initial: (_) {},
           );
         },
@@ -70,7 +73,9 @@ class ListsOverviewPage extends StatelessWidget implements AutoRouteWrapper {
                     onListDelete: (i) {
                       actorBloc.add(AppListsActorEvent.deleteList(e.appLists[i]));
                     },
-                    onListTap: (i) => {},
+                    onListTap: (i) => actorBloc.add(
+                      AppListsActorEvent.getList(e.appLists[i].id),
+                    ),
                     onOrderChanged: (newLists) {
                       actorBloc.add(AppListsActorEvent.updateListsIndices(newLists));
                     },

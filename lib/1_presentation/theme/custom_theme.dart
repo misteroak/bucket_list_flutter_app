@@ -19,7 +19,6 @@ class CustomTheme {
       ),
     );
 
-    print(theme.textTheme);
     // Overrides
     return theme.copyWith(
       scaffoldBackgroundColor: const Color(0xFFDDE3F1),

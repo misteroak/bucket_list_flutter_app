@@ -42,42 +42,45 @@ class AppListsListView extends StatelessWidget {
 
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 8.0),
-                  child: Material(
-                    clipBehavior: Clip.antiAlias,
-                    borderRadius: BorderRadius.circular(20),
-                    elevation: elevation!,
-                    color: Theme.of(context).colorScheme.surface,
-                    child: SizeFadeTransition(
-                      sizeFraction: 0.3,
-                      curve: Curves.easeInOut,
-                      animation: itemAnimation,
-                      child: Handle(
-                        delay: const Duration(milliseconds: 800),
-                        child: Slidable(
-                          closeOnScroll: true,
-                          enabled: !inDrag,
-                          endActionPane: ActionPane(
-                            motion: const ScrollMotion(),
-                            children: [
-                              SlidableAction(
-                                autoClose: true,
-                                backgroundColor: Theme.of(context).colorScheme.secondary,
-                                icon: Icons.delete,
-                                onPressed: (_) => onListDelete(i),
-                              )
-                            ],
-                          ),
-                          child: SizedBox(
-                            height: 80,
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    item.name,
-                                    style: Theme.of(context).textTheme.headline6,
-                                  ),
-                                ],
+                  child: GestureDetector(
+                    onTap: () => onListTap(i),
+                    child: Material(
+                      clipBehavior: Clip.antiAlias,
+                      borderRadius: BorderRadius.circular(20),
+                      elevation: elevation!,
+                      color: Theme.of(context).colorScheme.surface,
+                      child: SizeFadeTransition(
+                        sizeFraction: 0.3,
+                        curve: Curves.easeInOut,
+                        animation: itemAnimation,
+                        child: Handle(
+                          delay: const Duration(milliseconds: 800),
+                          child: Slidable(
+                            closeOnScroll: true,
+                            enabled: !inDrag,
+                            endActionPane: ActionPane(
+                              motion: const ScrollMotion(),
+                              children: [
+                                SlidableAction(
+                                  autoClose: true,
+                                  backgroundColor: Theme.of(context).colorScheme.secondary,
+                                  icon: Icons.delete,
+                                  onPressed: (_) => onListDelete(i),
+                                )
+                              ],
+                            ),
+                            child: SizedBox(
+                              height: 80,
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      item.name,
+                                      style: Theme.of(context).textTheme.headline6,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
